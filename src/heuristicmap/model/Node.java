@@ -1,7 +1,7 @@
 package heuristicmap.model;
 
 /*
- *	A model class for Songs, including a song's attributes as well as functions for formatting/comparing songs.
+ *	A model class for Nodes - or in this case, the individual vertices of a map.
  *	@author Joel Carrillo (jjc372) and Lukasz Gremza (lgd65)
  */
 
@@ -18,9 +18,10 @@ public class Node {
 	 */
 
 	char type;
-	boolean hasRiver;
+	Node parent;
 
 	public Node(int startx, int starty){
+		parent = null;
 		this.x = startx;
 		this.y = starty;
 		type = '1';
@@ -38,15 +39,38 @@ public class Node {
 		return Character.toString(type);
 	}
 
-	public boolean setRiver(){
-		if(type != '0'){
-			hasRiver = true;
-			return true;
+	public void setRiver(){
+		switch(type){
+			case '1':
+				this.setType('a');
+				break;
+			case '2':
+				this.setType('b');
+				break;
+			default:
+				break;
 		}
-		return false;
 	}
 
-	public boolean getRiver(){
-		return hasRiver;
+	// In the event that a river needs to be taken away from a node (specifically if a river is being rejected)
+	public void revertRiver(){
+		switch(type){
+			case 'a':
+				this.setType('1');
+				break;
+			case 'b':
+				this.setType('2');
+				break;
+			default:
+				break;
+		}
+	}
+
+	public void setParent(Node parentIn){
+		parent = parentIn;
+	}
+
+	public Node getParent(){
+		return parent;
 	}
 }
