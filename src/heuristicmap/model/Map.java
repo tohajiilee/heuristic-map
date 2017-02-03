@@ -18,28 +18,51 @@ public class Map {
 	Node[] hardmarkers;
 
 	public Map(){
+
+		map = new Node[rows][columns];
+
+		// Once initialized, the map will set up 120x160 nodes in a grid. They all begin as regular nodes.
+
 		for(int i = 0; i < rows; i++){
 			for(int j = 0; j < columns; j++){
 				map[i][j] = new Node(i, j);
 			}
 		}
 
+		hardmarkers = new Node[8];
+
+		// 8 different 'hard markers' are set on the grid, and recorded.
+
 		for(int i = 0; i < 8; i++){
 			int markX = rand.nextInt(rows);
 			int markY = rand.nextInt(columns);
 			hardmarkers[i] = map[markX][markY];
 
+			// The following sets up the 'hard to traverse' nodes in the 31x31 square around a given 'hard marker.'
+			// Each node has a 50% chance to be hard to traverse if they are within the square.
 			for(int j = 0; j < 31; j++){
 				for(int k = 0; k < 31; k++){
-					if((markX + (j - 15) >= 0 && markX + (j - 15) < columns)
-						&& (markY + (j - 15) >= 0 && markY + (j - 15) < rows)){
-						if(rand.nextInt(100) > 50){
-
+					if((markX + (j - 15) >= 0 && markX + (j - 15) < rows)
+						&& (markY + (k - 15) >= 0 && markY + (k - 15) < columns)){
+						if((rand.nextInt(100) + 1) > 50){
+								map[markX + (j - 15)][markY + (k - 15)].setType('2');
 						}
 					}
 				}
 			}
-
 		}
+	}
+
+	public String toString(){
+		String mapString = "";
+
+		for(int i = 0; i < rows; i++){
+			for(int j = 0; j < columns; j++){
+				mapString = mapString + map[i][j].getTypeString();
+			}
+			mapString.concat("\n");
+		}
+
+		return mapString;
 	}
 }

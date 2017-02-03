@@ -34,6 +34,10 @@ public class Node {
 		return type;
 	}
 
+	public String getTypeString(){
+		return Character.toString(type);
+	}
+
 	public boolean setRiver(){
 		if(type != '0'){
 			hasRiver = true;
