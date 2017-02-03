@@ -25,7 +25,21 @@ public class Map {
 		}
 
 		for(int i = 0; i < 8; i++){
-			hardmarkers[i] = map[rand.nextInt(rows)][rand.nextInt(columns)];
+			int markX = rand.nextInt(rows);
+			int markY = rand.nextInt(columns);
+			hardmarkers[i] = map[markX][markY];
+
+			for(int j = 0; j < 31; j++){
+				for(int k = 0; k < 31; k++){
+					if((markX + (j - 15) >= 0 && markX + (j - 15) < columns)
+						&& (markY + (j - 15) >= 0 && markY + (j - 15) < rows)){
+						if(rand.nextInt(100) > 50){
+
+						}
+					}
+				}
+			}
+
 		}
 	}
 }
