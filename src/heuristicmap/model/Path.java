@@ -8,6 +8,16 @@ package heuristicmap.model;
 public class Path {
 	int x, y;
 	int length = 0;
+
+	/*
+	 * Directions depicted as chars:
+	 * 		'N', 'W', 'E', and 'S'
+	 * for their respective cardinal directions.
+	 *
+	 * This is specifically for rivers, and not chiefly useful for the solution path - if the solution path algorithm uses this object at all, that is.
+	 */
+
+	char direction;
 	Path parent;
 
 
@@ -18,6 +28,20 @@ public class Path {
 		parent = parentIn;
 		if(parent != null){
 			setLength(parent.getLength() + 1);
+
+		}
+		if(starty == 0){
+			direction = 'S';
+		}
+		else if(starty == 119){
+			direction = 'N';
+		}
+
+		if(startx == 0){
+			direction = 'E';
+		}
+		else if(startx == 159){
+			direction = 'W';
 		}
 	}
 
@@ -35,5 +59,9 @@ public class Path {
 
 	public int getLength(){
 		return length;
+	}
+
+	public char getDirection(){
+		return direction;
 	}
 }
