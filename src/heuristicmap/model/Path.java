@@ -17,31 +17,19 @@ public class Path {
 	 * This is specifically for rivers, and not chiefly useful for the solution path - if the solution path algorithm uses this object at all, that is.
 	 */
 
-	char direction;
+	char direction = ' ';
 	Path parent;
 
 
-	public Path(int startx, int starty, Path parentIn){
+	public Path(int startx, int starty, Path parentIn, char dirIn){
 		parent = null;
 		this.x = startx;
 		this.y = starty;
 		parent = parentIn;
+		direction = dirIn;
 		if(parent != null){
 			setLength(parent.getLength() + 1);
 
-		}
-		if(starty == 0){
-			direction = 'S';
-		}
-		else if(starty == 119){
-			direction = 'N';
-		}
-
-		if(startx == 0){
-			direction = 'E';
-		}
-		else if(startx == 159){
-			direction = 'W';
 		}
 	}
 
@@ -59,6 +47,10 @@ public class Path {
 
 	public int getLength(){
 		return length;
+	}
+
+	public void setDirection(char dirIn){
+		direction = dirIn;
 	}
 
 	public char getDirection(){
