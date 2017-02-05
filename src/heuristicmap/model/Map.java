@@ -219,20 +219,28 @@ public class Map {
 				if (numImpassable >= impassableGoal)
 					break;
 			}
-		int n = rand.nextInt(400) + 1;
+
+		/*
+		 * A set of start and goal vertices are also chosen. Randomly, among 4 different variations, a start/goal is selected:
+		 * 	- From the top and bottom, or vice versa
+		 * 	- From the left and right, or vice versa
+		 * If the overall distance in vertices is not over 100, we retry.
+		 */
+		int n;
 		int startX, startY, goalX, goalY;
 		while (true) {
-			if (n < 101) {
+			n = rand.nextInt(4000) + 1;
+			if (n < 1001) {
 				startX = rand.nextInt(20);
 				startY = rand.nextInt(rows);
 				goalX = rand.nextInt(20) + 140;
 				goalY = rand.nextInt(rows);
-			} else if (n < 201) {
+			} else if (n < 2001) {
 				startX = rand.nextInt(20) + 140;
 				startY = rand.nextInt(rows);
 				goalX = rand.nextInt(20);
 				goalY = rand.nextInt(rows);
-			} else if (n < 301) {
+			} else if (n < 3001) {
 				startX = rand.nextInt(columns);
 				startY = rand.nextInt(20) + 100;
 				goalX = rand.nextInt(columns);
