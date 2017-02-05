@@ -82,8 +82,10 @@ public class Map {
 			riverGenAttempts = 0;
 			while (!startComplete) {
 				int m = rand.nextInt(100000);
-				int beginX = rand.nextInt(columns);
-				int beginY = rand.nextInt(rows);
+				int beginX = rand.nextInt(columns - 2) + 1;
+				int beginY = rand.nextInt(rows - 2) + 1;
+				if(beginX == 0 || beginX == columns - 1 || beginY == 0 || beginY == rows - 1)
+					continue;
 				if (m < 25001) {
 					if (map[beginX][0].getType() != 'a' && map[beginX][0].getType() != 'b') {
 						river = new Path(beginX, 0, null, 'S');
@@ -261,6 +263,76 @@ public class Map {
 	public Path addToRiver(int x, int y, Path parent, char direction) {
 		Path newRiver = new Path(x, y, parent, direction);
 		return newRiver;
+	}
+
+	public double findPathDistance(Node v1, Node v2){
+		char type1 = v1.getType();
+		char type2 = v2.getType();
+		boolean diag = false;
+		double retval = -1;
+		if(Math.abs(v2.x + v1.x) == 1 && Math.abs(v2.y + v1.y) == 1)
+			diag = true;
+		switch(type1){
+			case '1':
+				if(diag){
+					if (type2 == '1' || type2 == 'a')
+						retval =  Math.sqrt(2);
+					else if (type2 == '2' || type2 == 'b')
+						retval =  (Math.sqrt(2) + Math.sqrt(8))/2;
+				}
+				else{
+					if (type2 == '1' || type2 == 'a')
+						retval =  1;
+					else if (type2 == '2' || type2 == 'b')
+						retval =  1.5;
+				}
+				break;
+			case '2':
+				if(diag){
+					if (type2 == '1' || type2 == 'a')
+						retval =  (Math.sqrt(2) + Math.sqrt(8))/2;
+					else if (type2 == '2' || type2 == 'b')
+						retval =  Math.sqrt(8);
+				}
+				else{
+					if (type2 == '1' || type2 == 'a')
+						retval =  1.5;
+					else if (type2 == '2' || type2 == 'b')
+						retval =  2;
+				}
+				break;
+			case 'a':
+				if(diag){
+					if (type2 == '1' || type2 == 'a')
+						retval =  Math.sqrt(2) / 4;
+					else if (type2 == '2' || type2 == 'b')
+						retval =  (Math.sqrt(2) + Math.sqrt(8))/8;
+				}
+				else{
+					if (type2 == '1' || type2 == 'a')
+						retval =  1/4;
+					else if (type2 == '2' || type2 == 'b')
+						retval =  1.5/4;
+				}
+				break;
+			case 'b':
+				if(diag){
+					if (type2 == '1' || type2 == 'a')
+						retval =  (Math.sqrt(2) + Math.sqrt(8))/8;
+					else if (type2 == '2' || type2 == 'b')
+						retval =  Math.sqrt(8)/4;
+				}
+				else{
+					if (type2 == '1' || type2 == 'a')
+						retval =  1.5/4;
+					else if (type2 == '2' || type2 == 'b')
+						retval =  2/4;
+				}
+				break;
+			default:
+				break;
+		}
+		return retval;
 	}
 
 	public String toString() {
