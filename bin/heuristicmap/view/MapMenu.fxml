@@ -15,6 +15,9 @@
                <children>
                   <Label layoutX="14.0" layoutY="14.0" text="Statistics" />
                   <Button fx:id="backButton" layoutX="12.0" layoutY="727.0" mnemonicParsing="false" text="Back" />
+                  <Button fx:id="WeightedAButton" layoutX="12.0" layoutY="702.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Weighted A*" />
+                  <Button fx:id="AButton" layoutX="12.0" layoutY="677.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="A*" />
+                  <Button fx:id="UCSButton" layoutX="12.0" layoutY="652.0" mnemonicParsing="false" text="Uniform Cost Search" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0">

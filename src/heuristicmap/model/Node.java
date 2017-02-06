@@ -6,7 +6,9 @@ package heuristicmap.model;
  */
 
 public class Node {
-	int x, y;
+	private int x;
+
+	private int y;
 
 	/*
 	 * Guideline For Types
@@ -20,13 +22,17 @@ public class Node {
 	char type;
 	double distance;
 	Node parent;
+	boolean traveledTo;
+	boolean isPath;
 
 	public Node(int startx, int starty){
 		parent = null;
-		this.x = startx;
-		this.y = starty;
+		this.setX(startx);
+		this.setY(starty);
 		type = '1';
+		traveledTo = false;
 		distance = 32767;
+		isPath = false;
 	}
 
 	public void setType(char typeIn){
@@ -76,11 +82,51 @@ public class Node {
 		return parent;
 	}
 
-	public void setDistance(int distanceIn){
+	public void setDistance(double distanceIn){
 		distance = distanceIn;
 	}
 
 	public double getDistance(){
 		return distance;
+	}
+
+	public boolean getTraveled(){
+		return traveledTo;
+	}
+
+	public void setTraveled(boolean travelIn){
+		traveledTo = travelIn;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public boolean getPath(){
+		return isPath;
+	}
+
+	public void setPath(boolean pathIn){
+		isPath = pathIn;
+	}
+
+	public boolean equals(Node nodeIn){
+		return (x == nodeIn.getX() && y == nodeIn.getY());
+	}
+
+	public String toString(){
+		return ("X = " + x + " Y = " + y + " Type = " + type + " Traveled In = " + traveledTo + " Distance from Start = " + distance);
 	}
 }

@@ -29,7 +29,6 @@ public class Path {
 		direction = dirIn;
 		if(parent != null){
 			setLength(parent.getLength() + 1);
-
 		}
 	}
 

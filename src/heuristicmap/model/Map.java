@@ -24,8 +24,8 @@ public class Map {
 
 	Node[] hardmarkers;
 
-	Node start;
-	Node goal;
+	private Node start;
+	private Node goal;
 
 	public Map(File file){
 		map = new Node[columns][rows];
@@ -44,12 +44,12 @@ public class Map {
 	            	if(lineprog > 1 && lineprog < 10){
 	            		commaLoc = line.indexOf(",");
             			this.hardmarkers[lineprog - 2] = new Node(Integer.parseInt(line.substring(0,commaLoc)),
-            					Integer.parseInt(line.substring(commaLoc + 2)));
+            					Integer.parseInt(line.substring(commaLoc + 1)));
             			lineprog++;
 	            	}
 	            	else if(lineprog >= 10){
 	            		for(int i = 0; i < columns; i++){
-	            			this.map[i][j] = new Node(i, lineprog - 11);
+	            			this.map[i][j] = new Node(i, j);
 	            			this.map[i][j].setType(line.charAt(i));
 	            			lineprog++;
 	            		}
@@ -58,14 +58,14 @@ public class Map {
 	            	switch(lineprog){
 	            		case 0:
 	            			commaLoc = line.indexOf(",");
-	            			this.start = new Node(Integer.parseInt(line.substring(0,commaLoc)),
-	            					Integer.parseInt(line.substring(commaLoc + 2)));
+	            			this.setStart(new Node(Integer.parseInt(line.substring(0,commaLoc)),
+	            					Integer.parseInt(line.substring(commaLoc + 1))));
 	            			lineprog++;
 	            			break;
 	            		case 1:
 	            			commaLoc = line.indexOf(",");
-	            			this.goal = new Node(Integer.parseInt(line.substring(0,commaLoc)),
-	            					Integer.parseInt(line.substring(commaLoc + 2)));
+	            			this.setGoal(new Node(Integer.parseInt(line.substring(0,commaLoc)),
+	            					Integer.parseInt(line.substring(commaLoc + 1))));
 	            			lineprog++;
 	            			break;
 	            		default:
@@ -315,8 +315,8 @@ public class Map {
 			if (Math.abs(startX - goalX) + Math.abs(startY - goalY) > 100)
 				break;
 		}
-		start = map[startX][startY];
-		goal = map[goalX][goalY];
+		setStart(map[startX][startY]);
+		setGoal(map[goalX][goalY]);
 	}
 
 	public Path addToRiver(int x, int y, Path parent, char direction) {
@@ -329,7 +329,7 @@ public class Map {
 		char type2 = v2.getType();
 		boolean diag = false;
 		double retval = -1;
-		if(Math.abs(v2.x + v1.x) == 1 && Math.abs(v2.y + v1.y) == 1)
+		if(Math.abs(v2.getX() + v1.getX()) == 1 && Math.abs(v2.getY() + v1.getY()) == 1)
 			diag = true;
 		switch(type1){
 			case '1':
@@ -400,11 +400,11 @@ public class Map {
 
 	public String toString() {
 		String mapString = "";
-		mapString = mapString + (start.x + "," + start.y + "\n");
-		mapString = mapString + (goal.x + "," + goal.y +"\n");
+		mapString = mapString + (getStart().getX() + "," + getStart().getY() + "\n");
+		mapString = mapString + (getGoal().getX() + "," + getGoal().getY() +"\n");
 
 		for (int i = 0; i < hardmarkers.length; i++)
-			mapString = mapString + (hardmarkers[i].x + "," + hardmarkers[i].y + "\n");
+			mapString = mapString + (hardmarkers[i].getX() + "," + hardmarkers[i].getY() + "\n");
 
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
@@ -414,5 +414,21 @@ public class Map {
 		}
 
 		return mapString;
+	}
+
+	public Node getStart() {
+		return start;
+	}
+
+	public void setStart(Node start) {
+		this.start = start;
+	}
+
+	public Node getGoal() {
+		return goal;
+	}
+
+	public void setGoal(Node goal) {
+		this.goal = goal;
 	}
 }
