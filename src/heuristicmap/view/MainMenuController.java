@@ -7,12 +7,16 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
 import heuristicmap.model.Map;
-import heuristicmap.model.Node;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -21,6 +25,8 @@ public class MainMenuController {
 	private Button genMapButton;
 	@FXML
 	private Button loadMapButton;
+
+	public static Map currentMap;
 
 	public void start(Stage mainStage) throws FileNotFoundException, UnsupportedEncodingException {
 		genMapButton.setOnAction(new EventHandler<ActionEvent>(){
@@ -39,6 +45,36 @@ public class MainMenuController {
 		                    System.out.println(ex.getMessage());
 		                }
 		            }
+			}
+		});
+
+		loadMapButton.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event){
+				FileChooser fileChooser = new FileChooser();
+				fileChooser.setTitle("Load Map");
+		        File file = fileChooser.showOpenDialog(mainStage);
+		        currentMap = new Map(file);
+		        Stage stage = new Stage();
+				Parent root;
+				try
+				{
+					((Node)(event.getSource())).getScene().getWindow().hide();
+					FXMLLoader loader = new FXMLLoader();
+					loader.setLocation(getClass().getResource("MapMenu.fxml"));
+					root = (AnchorPane) loader.load();
+					MapMenuController mapController = loader.getController();
+
+					Scene scene = new Scene(root);
+					stage.setScene(scene);
+					stage.setTitle("View Map");
+					mapController.start(stage);
+					stage.show();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
 			}
 		});
 	}

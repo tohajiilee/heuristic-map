@@ -1,6 +1,11 @@
 package heuristicmap.model;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Random;
+import java.util.Scanner;
 
 /*
  *	A model class for Songs, including a song's attributes as well as functions for formatting/comparing songs.
@@ -12,14 +17,68 @@ import heuristicmap.model.Path;
 
 public class Map {
 	Random rand = new Random();
-	int rows = 120, columns = 160;
+	public int rows = 120;
+	public int columns = 160;
 
-	Node[][] map;
+	public Node[][] map;
 
 	Node[] hardmarkers;
 
 	Node start;
 	Node goal;
+
+	public Map(File file){
+		map = new Node[columns][rows];
+		hardmarkers = new Node[8];
+        if (file != null) {
+        	try
+	        {
+	            FileReader fileReader = new FileReader(file);
+	            BufferedReader bufferedReader = new BufferedReader(fileReader);
+	            String line = null;
+            	int lineprog = 0;
+            	int commaLoc = 0;
+            	int j = 0;
+	            while((line = bufferedReader.readLine()) != null)
+	            {
+	            	if(lineprog > 1 && lineprog < 10){
+	            		commaLoc = line.indexOf(",");
+            			this.hardmarkers[lineprog - 2] = new Node(Integer.parseInt(line.substring(0,commaLoc)),
+            					Integer.parseInt(line.substring(commaLoc + 2)));
+            			lineprog++;
+	            	}
+	            	else if(lineprog >= 10){
+	            		for(int i = 0; i < columns; i++){
+	            			this.map[i][j] = new Node(i, lineprog - 11);
+	            			this.map[i][j].setType(line.charAt(i));
+	            			lineprog++;
+	            		}
+	            		j++;
+	            	}
+	            	switch(lineprog){
+	            		case 0:
+	            			commaLoc = line.indexOf(",");
+	            			this.start = new Node(Integer.parseInt(line.substring(0,commaLoc)),
+	            					Integer.parseInt(line.substring(commaLoc + 2)));
+	            			lineprog++;
+	            			break;
+	            		case 1:
+	            			commaLoc = line.indexOf(",");
+	            			this.goal = new Node(Integer.parseInt(line.substring(0,commaLoc)),
+	            					Integer.parseInt(line.substring(commaLoc + 2)));
+	            			lineprog++;
+	            			break;
+	            		default:
+	            			break;
+	            	}
+
+	            }
+	            bufferedReader.close();
+	        } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+	}
 
 	public Map() {
 
@@ -335,13 +394,17 @@ public class Map {
 		return retval;
 	}
 
+	public Node[][] getMap(){
+		return map;
+	}
+
 	public String toString() {
 		String mapString = "";
-		mapString = mapString + ("(" + start.x + "," + start.y + ")" + "\n");
-		mapString = mapString + ("(" + goal.x + "," + goal.y + ")" + "\n");
+		mapString = mapString + (start.x + "," + start.y + "\n");
+		mapString = mapString + (goal.x + "," + goal.y +"\n");
 
 		for (int i = 0; i < hardmarkers.length; i++)
-			mapString = mapString + ("(" + hardmarkers[i].x + "," + hardmarkers[i].y + ")" + "\n");
+			mapString = mapString + (hardmarkers[i].x + "," + hardmarkers[i].y + "\n");
 
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {

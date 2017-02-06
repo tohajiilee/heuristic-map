@@ -18,6 +18,7 @@ public class Node {
 	 */
 
 	char type;
+	double distance;
 	Node parent;
 
 	public Node(int startx, int starty){
@@ -25,6 +26,7 @@ public class Node {
 		this.x = startx;
 		this.y = starty;
 		type = '1';
+		distance = 32767;
 	}
 
 	public void setType(char typeIn){
@@ -72,5 +74,13 @@ public class Node {
 
 	public Node getParent(){
 		return parent;
+	}
+
+	public void setDistance(int distanceIn){
+		distance = distanceIn;
+	}
+
+	public double getDistance(){
+		return distance;
 	}
 }
