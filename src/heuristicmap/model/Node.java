@@ -21,6 +21,7 @@ public class Node {
 
 	char type;
 	double distance;
+	double fVal;
 	Node parent;
 	boolean traveledTo;
 	boolean isPath;
@@ -33,6 +34,7 @@ public class Node {
 		traveledTo = false;
 		distance = 32767;
 		isPath = false;
+		fVal = 0;
 	}
 
 	public void setType(char typeIn){
@@ -128,5 +130,13 @@ public class Node {
 
 	public String toString(){
 		return ("X = " + x + " Y = " + y + " Type = " + type + " Traveled In = " + traveledTo + " Distance from Start = " + distance);
+	}
+
+	public double getFVal(){
+		return fVal;
+	}
+
+	public void setFVal(double fIn){
+		fVal = fIn;
 	}
 }

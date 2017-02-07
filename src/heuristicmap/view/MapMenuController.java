@@ -37,6 +37,7 @@ public class MapMenuController {
 		UCSButton.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event){
+				currMap.refreshMap();
 				long startTime; long endTime; long msEndTime;
 				startTime = System.nanoTime();
 				System.out.println("Beginning UCS.");
@@ -58,6 +59,7 @@ public class MapMenuController {
 		AButton.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event){
+				currMap.refreshMap();
 				long startTime; long endTime; long msEndTime;
 				startTime = System.nanoTime();
 				System.out.println("Beginning A* search.");
@@ -71,7 +73,7 @@ public class MapMenuController {
 					msEndTime = endTime / 1000000;
 					System.out.println("A* Complete! Time: " + msEndTime + "ms");
 					updateTiles();
-					System.out.println("Tiles updated.");
+					System.out.println("Tiles updated");
 				}
 			}
 		});
@@ -85,6 +87,7 @@ public class MapMenuController {
 		heuristic = new Heuristic(currMap);
 		updateTiles();
 	}
+
 
 	/*
 	 * for (int i = 0; i < rows; i++) { for (int j = 0; j < columns; j++) {
@@ -157,7 +160,7 @@ public class MapMenuController {
 		Comparator<Node> comparator = new DistanceComparator();
 		PriorityQueue<Node> fringe =
 	            new PriorityQueue<Node>(10, comparator);
-		currMap.getStart().setDistance(0);
+		currMap.getStart().setDistance(0 + heuristic.selectHeuristic(currMap.getStart(), currMap.getGoal(), heurIn));
 		currMap.getStart().setParent(currMap.getStart());
 		fringe.add(currMap.getStart());
 		while(!fringe.isEmpty()){
@@ -186,7 +189,8 @@ public class MapMenuController {
 
 	public void updateVertex(Node v1, Node v2, PriorityQueue<Node> fringe, char heurIn){
 		if(v1.getDistance() + (currMap.findPathDistance(v1, v2)) < v2.getDistance()){
-			v2.setDistance(v1.getDistance() + (currMap.findPathDistance(v1, v2)) + heuristic.selectHeuristic(v1, currMap.getGoal(), heurIn));
+			v2.setDistance(v1.getDistance() + (currMap.findPathDistance(v1, v2)));
+			v2.setFVal(v2.getDistance() + heuristic.selectHeuristic(v2, currMap.getGoal(), heurIn));
 			v2.setParent(v1);
 			if(!fringe.isEmpty())
 				if(fringe.peek().equals(v2))

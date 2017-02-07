@@ -312,7 +312,9 @@ public class Map {
 				goalX = rand.nextInt(columns);
 				goalY = rand.nextInt(20) + 100;
 			}
-			if (Math.abs(startX - goalX) + Math.abs(startY - goalY) > 100)
+			if (Math.abs(startX - goalX) + Math.abs(startY - goalY) > 100 &&
+					(map[startX][startY].getType() != '0') &&
+						(map[goalX][goalY].getType() != '0'))
 				break;
 		}
 		setStart(map[startX][startY]);
@@ -430,5 +432,14 @@ public class Map {
 
 	public void setGoal(Node goal) {
 		this.goal = goal;
+	}
+
+	public void refreshMap(){
+		for(int i = 0; i < columns; i++)
+			for(int j = 0; j < rows; j++){
+				this.map[i][j].setTraveled(false);
+				this.map[i][j].setDistance(32767);
+				this.map[i][j].setPath(false);
+			}
 	}
 }
