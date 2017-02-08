@@ -2,7 +2,7 @@ package heuristicmap.model;
 
 /*
  *	A model class for Nodes - or in this case, the individual vertices of a map.
- *	@author Joel Carrillo (jjc372) and Lukasz Gremza (lgd65)
+ *	@author Joel Carrillo (jjc372)
  */
 
 public class Node {
@@ -20,12 +20,23 @@ public class Node {
 	 */
 
 	char type;
+
+	// Distance represents 'g' for the purposes of the algorithm, while fVal represents 'f.' Heuristic value recorded in 'h.'.
 	double distance;
 	double fVal;
+	double hVal;
+
+	// Parent refers to the vertex that this node was reached from - used primarily for pathing.
 	Node parent;
+
+	// If the vertex has been traveled to, disregard this when going through A* or any other algorithm.
 	boolean traveledTo;
+
+	// If isPath is true, then the optimum pathway should go through this vertex.
 	boolean isPath;
 
+	// Distance is set to 32767, which should effectively represent 'infinity' for the purposes of the algorithm.
+	// No special reason for the number - it can be arbitrary so as long as it greatly exceeds the distances possible.
 	public Node(int startx, int starty){
 		parent = null;
 		this.setX(startx);
@@ -138,5 +149,13 @@ public class Node {
 
 	public void setFVal(double fIn){
 		fVal = fIn;
+	}
+
+	public double getHVal(){
+		return hVal;
+	}
+
+	public void setHVal(double hIn){
+		hVal = hIn;
 	}
 }

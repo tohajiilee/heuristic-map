@@ -36,7 +36,6 @@ public class HeuristicMap extends Application {
         return primaryStage;
     }
 
-
 	public static void main(String[] args) {
 		launch(args);
 	}

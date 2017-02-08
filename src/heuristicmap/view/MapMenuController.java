@@ -3,7 +3,7 @@ package heuristicmap.view;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import heuristicmap.model.DistanceComparator;
+import heuristicmap.model.Algorithm;
 import heuristicmap.model.Heuristic;
 import heuristicmap.model.Map;
 import heuristicmap.model.Node;
@@ -13,43 +13,80 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
-
-import java.util.Comparator;
-import java.util.PriorityQueue;
 
 public class MapMenuController {
 	private Map currMap;
 	private Heuristic heuristic;
+	private Algorithm algorithm;
 
 	@FXML
 	private TilePane MapPane;
+
 	@FXML
 	private Button UCSButton;
 	@FXML
 	private Button AButton;
+	@FXML
+	private Button WeightedAButton;
+
+	@FXML
+	private CheckBox AutomateCheck;
+
+	@FXML
+	private Label WarningLabel;
+	@FXML
+	private Label XLabel;
+	@FXML
+	private Label YLabel;
+	@FXML
+	private Label FLabel;
+	@FXML
+	private Label HLabel;
+	@FXML
+	private Label GLabel;
+
+	@FXML
+	private RadioButton HButtonA;
+	@FXML
+	private RadioButton HButtonB;
+	@FXML
+	private RadioButton HButtonC;
+	@FXML
+	private RadioButton HButtonD;
+
+	@FXML
+	private TextField WeightField;
 
 	public void start(Stage primaryStage) {
 
 		UCSButton.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event){
-				currMap.refreshMap();
-				long startTime; long endTime; long msEndTime;
-				startTime = System.nanoTime();
 				System.out.println("Beginning UCS.");
-				Node goalNode = uniformCostSearch();
-				if(goalNode != null){
-					while(!goalNode.getParent().equals(goalNode)){
-						goalNode.setPath(true);
-						goalNode = goalNode.getParent();
+				if(AutomateCheck.isSelected()){
+					Node originalStart = currMap.getStart();
+					Node originalGoal = currMap.getGoal();
+					for(int i = 0; i < 9; i++){
+						currMap.setStart(currMap.getMap()[currMap.getStartGoalPairs()[i][0][0]][currMap.getStartGoalPairs()[i][1][0]]);
+						currMap.setGoal(currMap.getMap()[currMap.getStartGoalPairs()[i][0][1]][currMap.getStartGoalPairs()[i][1][1]]);
+						initiateSearch(' ', 1);
 					}
-					endTime = System.nanoTime() - startTime;
-					msEndTime = endTime / 1000000;
-					System.out.println("UCS Complete! Time: " + msEndTime + "ms");
+					currMap.setStart(originalStart);
+					currMap.setGoal(originalGoal);
+				}
+				WarningLabel.setText("");
+				initiateSearch(' ', 1);
+				if(!AutomateCheck.isSelected()){
 					updateTiles();
 					System.out.println("Tiles updated.");
 				}
@@ -59,33 +96,85 @@ public class MapMenuController {
 		AButton.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event){
-				currMap.refreshMap();
-				long startTime; long endTime; long msEndTime;
-				startTime = System.nanoTime();
 				System.out.println("Beginning A* search.");
-				Node goalNode = aStarSearch('b');
-				if(goalNode != null){
-					while(!goalNode.getParent().equals(goalNode)){
-						goalNode.setPath(true);
-						goalNode = goalNode.getParent();
+				if(AutomateCheck.isSelected()){
+					Node originalStart = currMap.getStart();
+					Node originalGoal = currMap.getGoal();
+					for(int i = 0; i < 9; i++){
+						currMap.setStart(currMap.getMap()[currMap.getStartGoalPairs()[i][0][0]][currMap.getStartGoalPairs()[i][1][0]]);
+						currMap.setGoal(currMap.getMap()[currMap.getStartGoalPairs()[i][0][1]][currMap.getStartGoalPairs()[i][1][1]]);
+						initiateSearch(getHeuristic(), 1);
 					}
-					endTime = System.nanoTime() - startTime;
-					msEndTime = endTime / 1000000;
-					System.out.println("A* Complete! Time: " + msEndTime + "ms");
+					currMap.setStart(originalStart);
+					currMap.setGoal(originalGoal);
+				}
+				WarningLabel.setText("");
+				initiateSearch(getHeuristic(), 1);
+				if(!AutomateCheck.isSelected()){
 					updateTiles();
-					System.out.println("Tiles updated");
+					System.out.println("Tiles updated.");
 				}
 			}
 		});
 
+		WeightedAButton.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event){
+				if(Double.parseDouble(WeightField.getText()) < 1 || !isNumeric(WeightField.getText())){
+					WarningLabel.setText("Weight: Number >= 1.");
+			    	return;
+				}
+				WarningLabel.setText("");
+				System.out.println("Beginning weighted A* search with weight " + WeightField.getText());
+				if(AutomateCheck.isSelected()){
+					Node originalStart = currMap.getStart();
+					Node originalGoal = currMap.getGoal();
+					for(int i = 0; i < 9; i++){
+						currMap.setStart(currMap.getMap()[currMap.getStartGoalPairs()[i][0][0]][currMap.getStartGoalPairs()[i][1][0]]);
+						currMap.setGoal(currMap.getMap()[currMap.getStartGoalPairs()[i][0][1]][currMap.getStartGoalPairs()[i][1][1]]);
+						initiateSearch(getHeuristic(), Double.parseDouble(WeightField.getText()));
+					}
+					currMap.setStart(originalStart);
+					currMap.setGoal(originalGoal);
+				}
+				WarningLabel.setText("");
+				initiateSearch(getHeuristic(), Double.parseDouble(WeightField.getText()));
+				if(!AutomateCheck.isSelected()){
+					updateTiles();
+					System.out.println("Tiles updated.");
+				}
+			}
+		});
+
+		final ToggleGroup group = new ToggleGroup();
+
+		HButtonA.setToggleGroup(group);
+		HButtonA.setSelected(true);
+		HButtonB.setToggleGroup(group);
+		HButtonC.setToggleGroup(group);
+		HButtonD.setToggleGroup(group);
 
 		currMap = MainMenuController.currentMap;
 		MapPane.setOrientation(Orientation.HORIZONTAL);
 		MapPane.setPrefColumns(160);
 		MapPane.setHgap(2);
 		MapPane.setVgap(2);
-		heuristic = new Heuristic(currMap);
+		heuristic = new Heuristic();
+		algorithm = new Algorithm(heuristic);
 		updateTiles();
+	}
+
+	public char getHeuristic(){
+		if(HButtonA.isSelected())
+			return 'a';
+		else if(HButtonB.isSelected())
+			return 'b';
+		else if(HButtonC.isSelected())
+			return 'c';
+		else if(HButtonD.isSelected())
+			return 'd';
+		else
+			return ' ';
 	}
 
 
@@ -99,45 +188,71 @@ public class MapMenuController {
 		MapPane.getChildren().clear();
 		for (int i = 0; i < currMap.rows; i++) {
 			for (int j = 0; j < currMap.columns; j++) {
+				int xVal = j; int yVal = i;
 				ImageView imageView = new ImageView();
 				imageView.setPreserveRatio(true);
 				imageView.setFitWidth(16);
 				imageView.setFitHeight(16);
 				Image image = null;
-				String imageType = "";
+				String imageType = " ";
 				switch(currMap.getMap()[j][i].getType()){
 					case '0':
-						imageType = "block.png";
+						imageType = "pictures\\block.png";
 						break;
 					case '1':
 						if(currMap.getMap()[j][i].getPath())
-							imageType = "normalpath.png";
+							imageType = "pictures\\normalpath.png";
 						else
-							imageType = "normal.png";
+							imageType = "pictures\\normal.png";
+						if(currMap.getMap()[j][i].equals(currMap.getGoal()))
+							imageType = "pictures\\normalgoal.png";
+						else if(currMap.getMap()[j][i].equals(currMap.getStart()))
+							imageType = "pictures\\normalstart.png";
 						break;
 					case '2':
 						if(currMap.getMap()[j][i].getPath())
-							imageType = "hardpath.png";
+							imageType = "pictures\\hardpath.png";
 						else
-							imageType = "hard.png";
+							imageType = "pictures\\hard.png";
+						if(currMap.getMap()[j][i].equals(currMap.getGoal()))
+							imageType = "pictures\\hardgoal.png";
+						else if(currMap.getMap()[j][i].equals(currMap.getStart()))
+							imageType = "pictures\\hardstart.png";
 						break;
 					case 'a':
 						if(currMap.getMap()[j][i].getPath())
-							imageType = "normalriverpath.png";
+							imageType = "pictures\\normalriverpath.png";
 						else
-							imageType = "normalriver.png";
+							imageType = "pictures\\normalriver.png";
+						if(currMap.getMap()[j][i].equals(currMap.getGoal()))
+							imageType = "pictures\\normalrivergoal.png";
+						else if(currMap.getMap()[j][i].equals(currMap.getStart()))
+							imageType = "pictures\\normalriverstart.png";
 						break;
 					case 'b':
 						if(currMap.getMap()[j][i].getPath())
-							imageType = "hardriverpath.png";
+							imageType = "pictures\\hardriverpath.png";
 						else
-							imageType = "hardriver.png";
+							imageType = "pictures\\hardriver.png";
+						if(currMap.getMap()[j][i].equals(currMap.getGoal()))
+							imageType = "pictures\\hardrivergoal.png";
+						else if(currMap.getMap()[j][i].equals(currMap.getStart()))
+							imageType = "pictures\\hardriverstart.png";
 						break;
 					default:
 						break;
 				}
 				try {
 					image = new Image(new FileInputStream(imageType));
+					imageView.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
+
+	                    @Override
+	                    public void handle(MouseEvent event) {
+	                    	updateLabels(xVal, yVal,
+	                    			currMap.getMap()[xVal][yVal].getDistance(), currMap.getMap()[xVal][yVal].getHVal(), currMap.getMap()[xVal][yVal].getFVal());
+	                        event.consume();
+	                    }
+	               });
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -148,54 +263,32 @@ public class MapMenuController {
 		}
 	}
 
-	public Node uniformCostSearch(){
-		return aStarSearch(' ');
+	public void updateLabels(int x, int y, double g, double h, double f){
+		XLabel.setText(Integer.toString(x));
+		YLabel.setText(Integer.toString(y));
+		GLabel.setText(Double.toString(g));
+		HLabel.setText(Double.toString(h));
+		FLabel.setText(Double.toString(f));
 	}
 
-
-	/*
-	 * Warning: Currently the actual use of a heuristic does not appear to work. MUST fix this soon.
-	 */
-	public Node aStarSearch(char heurIn){
-		Comparator<Node> comparator = new DistanceComparator();
-		PriorityQueue<Node> fringe =
-	            new PriorityQueue<Node>(10, comparator);
-		currMap.getStart().setDistance(0 + heuristic.selectHeuristic(currMap.getStart(), currMap.getGoal(), heurIn));
-		currMap.getStart().setParent(currMap.getStart());
-		fringe.add(currMap.getStart());
-		while(!fringe.isEmpty()){
-			Node curr = fringe.poll();
-			if(currMap.getGoal().equals(curr)){
-				return curr;
+	public Node initiateSearch(char heurType, double weight){
+		currMap.refreshMap();
+		long startTime; long endTime; double msEndTime;
+		startTime = System.nanoTime();
+		Node goalNode = algorithm.aStarSearch(currMap, heurType, weight);
+		if(goalNode != null){
+			while(!goalNode.getParent().equals(goalNode)){
+				goalNode.setPath(true);
+				goalNode = goalNode.getParent();
 			}
-			curr.setTraveled(true);
-			int currX = curr.getX(); int currY = curr.getY();
-			for(int i = -1; i < 2; i++){
-				for(int j = -1; j < 2; j++){
-					if(currX + i > -1 && currX + i < 160
-							&& currY + j > -1 && currY + j < 120){
-						if(currMap.getMap()[currX + i][currY + j].getType() != '0')
-							if(!(i == 0 && j == 0))
-								if(!currMap.getMap()[currX + i][currY + j].getTraveled()){
-									updateVertex(curr, currMap.getMap()[currX + i][currY + j], fringe, heurIn);
-								}
-					}
-				}
-			}
+			endTime = System.nanoTime() - startTime;
+			msEndTime = (double)endTime / 1000000;
+			System.out.println("Time: " + msEndTime + "ms");
 		}
-		System.out.println("Failed.");
-		return null;
+		return goalNode;
 	}
 
-	public void updateVertex(Node v1, Node v2, PriorityQueue<Node> fringe, char heurIn){
-		if(v1.getDistance() + (currMap.findPathDistance(v1, v2)) < v2.getDistance()){
-			v2.setDistance(v1.getDistance() + (currMap.findPathDistance(v1, v2)));
-			v2.setFVal(v2.getDistance() + heuristic.selectHeuristic(v2, currMap.getGoal(), heurIn));
-			v2.setParent(v1);
-			if(!fringe.isEmpty())
-				if(fringe.peek().equals(v2))
-					fringe.remove();
-			fringe.add(v2);
-		}
+	public boolean isNumeric(String s) {
+	    return s.matches("[-+]?\\d*\\.?\\d+");
 	}
 }

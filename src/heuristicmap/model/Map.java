@@ -1,5 +1,10 @@
 package heuristicmap.model;
 
+/*
+ *	A model class for Maps - a series of 160x120 vertices, or in this case, Nodes/
+ *	@author Joel Carrillo (jjc372)
+ */
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -27,7 +32,11 @@ public class Map {
 	private Node start;
 	private Node goal;
 
+	// The following variable only applies to 'automated' maps (e.g. ones that are being searched through quickly for test purposes)
+	private int[][][] startGoalPairs;
+
 	public Map(File file){
+		startGoalPairs = new int[10][2][2];
 		map = new Node[columns][rows];
 		hardmarkers = new Node[8];
         if (file != null) {
@@ -38,16 +47,30 @@ public class Map {
 	            String line = null;
             	int lineprog = 0;
             	int commaLoc = 0;
-            	int j = 0;
+            	int j = 0; int n = 0;
 	            while((line = bufferedReader.readLine()) != null)
 	            {
+	            	if(j >= (rows)){
+	            		if(n % 2 == 0){
+	            			commaLoc = line.indexOf(",");
+	            			this.startGoalPairs[n/2][0][0] = (Integer.parseInt(line.substring(0,commaLoc)));
+	            			this.startGoalPairs[n/2][1][0] = (Integer.parseInt(line.substring(commaLoc + 1)));
+	            		}
+            			else
+            			{
+            				commaLoc = line.indexOf(",");
+            				this.startGoalPairs[n/2][0][1] = (Integer.parseInt(line.substring(0,commaLoc)));
+	            			this.startGoalPairs[n/2][1][1] = (Integer.parseInt(line.substring(commaLoc + 1)));
+            			}
+	            		n++;
+	            	}
 	            	if(lineprog > 1 && lineprog < 10){
 	            		commaLoc = line.indexOf(",");
             			this.hardmarkers[lineprog - 2] = new Node(Integer.parseInt(line.substring(0,commaLoc)),
             					Integer.parseInt(line.substring(commaLoc + 1)));
             			lineprog++;
 	            	}
-	            	else if(lineprog >= 10){
+	            	else if(lineprog >= 10 && j < rows){
 	            		for(int i = 0; i < columns; i++){
 	            			this.map[i][j] = new Node(i, j);
 	            			this.map[i][j].setType(line.charAt(i));
@@ -281,12 +304,20 @@ public class Map {
 					break;
 			}
 
-		/*
-		 * A set of start and goal vertices are also chosen. Randomly, among 4 different variations, a start/goal is selected:
-		 * 	- From the top and bottom, or vice versa
-		 * 	- From the left and right, or vice versa
-		 * If the overall distance in vertices is not over 100, we retry.
-		 */
+		Node[] startGoalPair = new Node[2];
+		startGoalPair = findStartGoalPair();
+		setStart(startGoalPair[0]);
+		setGoal(startGoalPair[1]);
+	}
+
+	/*
+	 * A set of start and goal vertices are also chosen. Randomly, among 4 different variations, a start/goal is selected:
+	 * 	- From the top and bottom, or vice versa
+	 * 	- From the left and right, or vice versa
+	 * If the overall distance in vertices is not over 100, we retry.
+	 */
+	public Node[] findStartGoalPair(){
+		Node[] pair = new Node[2];
 		int n;
 		int startX, startY, goalX, goalY;
 		while (true) {
@@ -312,13 +343,16 @@ public class Map {
 				goalX = rand.nextInt(columns);
 				goalY = rand.nextInt(20) + 100;
 			}
-			if (Math.abs(startX - goalX) + Math.abs(startY - goalY) > 100 &&
+			double dx = Math.abs(startX - goalX);
+			double dy = Math.abs(startY - goalY);
+			if (Math.sqrt(dx * dx + dy * dy) > 100 &&
 					(map[startX][startY].getType() != '0') &&
 						(map[goalX][goalY].getType() != '0'))
 				break;
 		}
-		setStart(map[startX][startY]);
-		setGoal(map[goalX][goalY]);
+		pair[0] = map[startX][startY];
+		pair[1] = map[goalX][goalY];
+		return pair;
 	}
 
 	public Path addToRiver(int x, int y, Path parent, char direction) {
@@ -440,6 +474,12 @@ public class Map {
 				this.map[i][j].setTraveled(false);
 				this.map[i][j].setDistance(32767);
 				this.map[i][j].setPath(false);
+				this.map[i][j].setFVal(0);
+				this.map[i][j].setParent(null);
 			}
+	}
+
+	public int[][][] getStartGoalPairs(){
+		return startGoalPairs;
 	}
 }

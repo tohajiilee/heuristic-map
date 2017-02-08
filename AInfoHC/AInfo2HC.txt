@@ -1,0 +1,49 @@
+Expansions: 8350
+Resulting Path Length: 81.94454364826301
+Memory used: 190758.0390625kb
+Time: 6.790713ms
+
+Expansions: 8465
+Resulting Path Length: 34.110058165646805
+Memory used: 190758.0390625kb
+Time: 6.081973ms
+
+Expansions: 14359
+Resulting Path Length: 82.95342712474618
+Memory used: 190758.0390625kb
+Time: 7.852639ms
+
+Expansions: 12651
+Resulting Path Length: 81.20710678118655
+Memory used: 190758.0390625kb
+Time: 7.074763ms
+
+Expansions: 15328
+Resulting Path Length: 67.375
+Memory used: 190758.0390625kb
+Time: 6.852739ms
+
+Expansions: 12153
+Resulting Path Length: 62.800698948877695
+Memory used: 190758.0390625kb
+Time: 5.533628ms
+
+Expansions: 13241
+Resulting Path Length: 65.84099025766973
+Memory used: 190758.0390625kb
+Time: 4.615899ms
+
+Expansions: 14583
+Resulting Path Length: 90.50260191002141
+Memory used: 190758.0390625kb
+Time: 4.591801ms
+
+Expansions: 12324
+Resulting Path Length: 71.1769999038884
+Memory used: 190758.0390625kb
+Time: 3.813925ms
+
+Expansions: 15728
+Resulting Path Length: 91.98873782208716
+Memory used: 190758.0390625kb
+Time: 5.289875ms
