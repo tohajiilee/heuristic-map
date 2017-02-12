@@ -25,6 +25,8 @@ public class MainMenuController {
 	private Button genMapButton;
 	@FXML
 	private Button loadMapButton;
+	@FXML
+	private Button genReportButton;
 
 	public static Map currentMap;
 
@@ -75,6 +77,13 @@ public class MainMenuController {
 				{
 					e.printStackTrace();
 				}
+			}
+		});
+		
+		genReportButton.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event){
+					
 			}
 		});
 	}
