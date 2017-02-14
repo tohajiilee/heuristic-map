@@ -5,13 +5,13 @@ package heuristicmap.model;
  *	@author Joel Carrillo (jjc372)
  */
 
-import heuristicmap.model.Node;
+import heuristicmap.model.Vertex;
 import heuristicmap.model.Map;
 
 public class Heuristic
 {
 
-	public double selectHeuristic(Node v1, Node v2, char heurIn){
+	public double selectHeuristic(Vertex v1, Vertex v2, char heurIn){
 		switch(heurIn){
 			case 'a':
 				return ManhattanSquares(v1, v2);
@@ -21,6 +21,8 @@ public class Heuristic
 				return DiagDistance(v1, v2);
 			case 'd':
 				return Heur4(v1, v2);
+			case 'e':
+				return ChebDistance(v1, v2);
 			default:
 				break;
 		}
@@ -31,29 +33,37 @@ public class Heuristic
 	 * A heuristic that uses Manhattan Squares to determine the distance between the goal and a certain Node.
 	 */
 
-	public double ManhattanSquares(Node v1, Node v2){
-		return (1/4) * (Math.abs(v1.getX() - v2.getX()) + Math.abs(v1.getY() - v2.getY()));
+	public double ManhattanSquares(Vertex v1, Vertex v2){
+		double dx = Math.abs(v1.getX() - v2.getX());
+		double dy = Math.abs(v1.getY() - v2.getY());
+		return (.25) * (dx + dy);
 	}
 
 	/*
 	 * A heuristic that uses Euclidean distance to determine the distance between the goal and a certain Node.
 	 */
 
-	public double EuclideanDistance(Node v1, Node v2){
+	public double EuclideanDistance(Vertex v1, Vertex v2){
 		double dx = Math.abs(v1.getX() - v2.getX());
 		double dy = Math.abs(v1.getY() - v2.getY());
-		return (1/4) * Math.sqrt(dx * dx + dy * dy);
+		return (.25) * Math.sqrt(dx * dx + dy * dy);
 	}
 
-	public double DiagDistance(Node v1, Node v2){
+	public double DiagDistance(Vertex v1, Vertex v2){
 		double dx = Math.abs(v1.getX() - v2.getX());
 		double dy = Math.abs(v1.getY() - v2.getY());
-		return (1/32) * (dx + dy) + ((Math.sqrt(2)/32) - 2 * (1/32)) * Math.min(dx, dy);
+		return (.25) * (dx + dy) + ((Math.sqrt(2) * .25) - 2 * (.25)) * Math.min(dx, dy);
 	}
 
-	public double Heur4(Node v1, Node v2){
+	public double Heur4(Vertex v1, Vertex v2){
 		double dx = Math.abs(v1.getX() - v2.getX());
 		double dy = Math.abs(v1.getY() - v2.getY());
 		return ((Math.max(dx, dy) - Math.min(dx, dy)));
+	}
+
+	public double ChebDistance(Vertex v1, Vertex v2){
+		double dx = Math.abs(v1.getX() - v2.getX());
+		double dy = Math.abs(v1.getY() - v2.getY());
+		return (.5) *  Math.max(dx, dy);
 	}
 }

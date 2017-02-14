@@ -39,6 +39,7 @@
                   <RadioButton fx:id="HButtonB" layoutX="18.0" layoutY="349.0" mnemonicParsing="false" text="B" />
                   <RadioButton fx:id="HButtonA" layoutX="18.0" layoutY="332.0" mnemonicParsing="false" text="A" />
                   <Label layoutX="10.0" layoutY="315.0" text="Select Heuristic" />
+                  <RadioButton fx:id="HButtonE" layoutX="18.0" layoutY="400.0" mnemonicParsing="false" text="E" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0">

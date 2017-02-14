@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import heuristicmap.model.Algorithm;
 import heuristicmap.model.Heuristic;
 import heuristicmap.model.Map;
-import heuristicmap.model.Node;
+import heuristicmap.model.Vertex;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -63,6 +63,8 @@ public class MapMenuController {
 	private RadioButton HButtonC;
 	@FXML
 	private RadioButton HButtonD;
+	@FXML
+	private RadioButton HButtonE;
 
 	@FXML
 	private TextField WeightField;
@@ -74,8 +76,8 @@ public class MapMenuController {
 			public void handle(ActionEvent event){
 				System.out.println("Beginning UCS.");
 				if(AutomateCheck.isSelected()){
-					Node originalStart = currMap.getStart();
-					Node originalGoal = currMap.getGoal();
+					Vertex originalStart = currMap.getStart();
+					Vertex originalGoal = currMap.getGoal();
 					for(int i = 0; i < 9; i++){
 						currMap.setStart(currMap.getMap()[currMap.getStartGoalPairs()[i][0][0]][currMap.getStartGoalPairs()[i][1][0]]);
 						currMap.setGoal(currMap.getMap()[currMap.getStartGoalPairs()[i][0][1]][currMap.getStartGoalPairs()[i][1][1]]);
@@ -98,8 +100,8 @@ public class MapMenuController {
 			public void handle(ActionEvent event){
 				System.out.println("Beginning A* search.");
 				if(AutomateCheck.isSelected()){
-					Node originalStart = currMap.getStart();
-					Node originalGoal = currMap.getGoal();
+					Vertex originalStart = currMap.getStart();
+					Vertex originalGoal = currMap.getGoal();
 					for(int i = 0; i < 9; i++){
 						currMap.setStart(currMap.getMap()[currMap.getStartGoalPairs()[i][0][0]][currMap.getStartGoalPairs()[i][1][0]]);
 						currMap.setGoal(currMap.getMap()[currMap.getStartGoalPairs()[i][0][1]][currMap.getStartGoalPairs()[i][1][1]]);
@@ -127,8 +129,8 @@ public class MapMenuController {
 				WarningLabel.setText("");
 				System.out.println("Beginning weighted A* search with weight " + WeightField.getText());
 				if(AutomateCheck.isSelected()){
-					Node originalStart = currMap.getStart();
-					Node originalGoal = currMap.getGoal();
+					Vertex originalStart = currMap.getStart();
+					Vertex originalGoal = currMap.getGoal();
 					for(int i = 0; i < 9; i++){
 						currMap.setStart(currMap.getMap()[currMap.getStartGoalPairs()[i][0][0]][currMap.getStartGoalPairs()[i][1][0]]);
 						currMap.setGoal(currMap.getMap()[currMap.getStartGoalPairs()[i][0][1]][currMap.getStartGoalPairs()[i][1][1]]);
@@ -153,6 +155,7 @@ public class MapMenuController {
 		HButtonB.setToggleGroup(group);
 		HButtonC.setToggleGroup(group);
 		HButtonD.setToggleGroup(group);
+		HButtonE.setToggleGroup(group);
 
 		currMap = MainMenuController.currentMap;
 		MapPane.setOrientation(Orientation.HORIZONTAL);
@@ -173,6 +176,8 @@ public class MapMenuController {
 			return 'c';
 		else if(HButtonD.isSelected())
 			return 'd';
+		else if(HButtonE.isSelected())
+			return 'e';
 		else
 			return ' ';
 	}
@@ -271,11 +276,11 @@ public class MapMenuController {
 		FLabel.setText(Double.toString(f));
 	}
 
-	public Node initiateSearch(char heurType, double weight){
+	public Vertex initiateSearch(char heurType, double weight){
 		currMap.refreshMap();
 		long startTime; long endTime; double msEndTime;
 		startTime = System.nanoTime();
-		Node goalNode = algorithm.aStarSearch(currMap, heurType, weight);
+		Vertex goalNode = algorithm.aStarSearch(currMap, heurType, weight);
 		if(goalNode != null){
 			while(!goalNode.getParent().equals(goalNode)){
 				goalNode.setPath(true);

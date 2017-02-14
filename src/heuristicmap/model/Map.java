@@ -17,7 +17,7 @@ import java.util.Scanner;
  *	@author Joel Carrillo (jjc372)
  */
 
-import heuristicmap.model.Node;
+import heuristicmap.model.Vertex;
 import heuristicmap.model.Path;
 
 public class Map {
@@ -25,20 +25,20 @@ public class Map {
 	public int rows = 120;
 	public int columns = 160;
 
-	public Node[][] map;
+	public Vertex[][] map;
 
-	Node[] hardmarkers;
+	Vertex[] hardmarkers;
 
-	private Node start;
-	private Node goal;
+	private Vertex start;
+	private Vertex goal;
 
 	// The following variable only applies to 'automated' maps (e.g. ones that are being searched through quickly for test purposes)
 	private int[][][] startGoalPairs;
 
 	public Map(File file){
 		startGoalPairs = new int[10][2][2];
-		map = new Node[columns][rows];
-		hardmarkers = new Node[8];
+		map = new Vertex[columns][rows];
+		hardmarkers = new Vertex[8];
         if (file != null) {
         	try
 	        {
@@ -66,13 +66,13 @@ public class Map {
 	            	}
 	            	if(lineprog > 1 && lineprog < 10){
 	            		commaLoc = line.indexOf(",");
-            			this.hardmarkers[lineprog - 2] = new Node(Integer.parseInt(line.substring(0,commaLoc)),
+            			this.hardmarkers[lineprog - 2] = new Vertex(Integer.parseInt(line.substring(0,commaLoc)),
             					Integer.parseInt(line.substring(commaLoc + 1)));
             			lineprog++;
 	            	}
 	            	else if(lineprog >= 10 && j < rows){
 	            		for(int i = 0; i < columns; i++){
-	            			this.map[i][j] = new Node(i, j);
+	            			this.map[i][j] = new Vertex(i, j);
 	            			this.map[i][j].setType(line.charAt(i));
 	            			lineprog++;
 	            		}
@@ -81,13 +81,13 @@ public class Map {
 	            	switch(lineprog){
 	            		case 0:
 	            			commaLoc = line.indexOf(",");
-	            			this.setStart(new Node(Integer.parseInt(line.substring(0,commaLoc)),
+	            			this.setStart(new Vertex(Integer.parseInt(line.substring(0,commaLoc)),
 	            					Integer.parseInt(line.substring(commaLoc + 1))));
 	            			lineprog++;
 	            			break;
 	            		case 1:
 	            			commaLoc = line.indexOf(",");
-	            			this.setGoal(new Node(Integer.parseInt(line.substring(0,commaLoc)),
+	            			this.setGoal(new Vertex(Integer.parseInt(line.substring(0,commaLoc)),
 	            					Integer.parseInt(line.substring(commaLoc + 1))));
 	            			lineprog++;
 	            			break;
@@ -105,18 +105,18 @@ public class Map {
 
 	public Map() {
 
-		map = new Node[columns][rows];
+		map = new Vertex[columns][rows];
 
 		// Once initialized, the map will set up 120x160 nodes in a grid. They
 		// all begin as regular nodes.
 
 		for (int i = 0; i < columns; i++) {
 			for (int j = 0; j < rows; j++) {
-				map[i][j] = new Node(i, j);
+				map[i][j] = new Vertex(i, j);
 			}
 		}
 
-		hardmarkers = new Node[8];
+		hardmarkers = new Vertex[8];
 
 		// 8 different 'hard markers' are set on the grid, and recorded.
 
@@ -304,7 +304,7 @@ public class Map {
 					break;
 			}
 
-		Node[] startGoalPair = new Node[2];
+		Vertex[] startGoalPair = new Vertex[2];
 		startGoalPair = findStartGoalPair();
 		setStart(startGoalPair[0]);
 		setGoal(startGoalPair[1]);
@@ -316,8 +316,8 @@ public class Map {
 	 * 	- From the left and right, or vice versa
 	 * If the overall distance in vertices is not over 100, we retry.
 	 */
-	public Node[] findStartGoalPair(){
-		Node[] pair = new Node[2];
+	public Vertex[] findStartGoalPair(){
+		Vertex[] pair = new Vertex[2];
 		int n;
 		int startX, startY, goalX, goalY;
 		while (true) {
@@ -360,7 +360,7 @@ public class Map {
 		return newRiver;
 	}
 
-	public double findPathDistance(Node v1, Node v2){
+	public double findPathDistance(Vertex v1, Vertex v2){
 		char type1 = v1.getType();
 		char type2 = v2.getType();
 		boolean diag = false;
@@ -373,7 +373,7 @@ public class Map {
 					if (type2 == '1' || type2 == 'a')
 						retval =  Math.sqrt(2);
 					else if (type2 == '2' || type2 == 'b')
-						retval =  (Math.sqrt(2) + Math.sqrt(8))/2;
+						retval =  (Math.sqrt(2) + Math.sqrt(8)) * (.5);
 				}
 				else{
 					if (type2 == '1' || type2 == 'a')
@@ -385,7 +385,7 @@ public class Map {
 			case '2':
 				if(diag){
 					if (type2 == '1' || type2 == 'a')
-						retval =  (Math.sqrt(2) + Math.sqrt(8))/2;
+						retval =  (Math.sqrt(2) + Math.sqrt(8)) * (.5);
 					else if (type2 == '2' || type2 == 'b')
 						retval =  Math.sqrt(8);
 				}
@@ -399,29 +399,29 @@ public class Map {
 			case 'a':
 				if(diag){
 					if (type2 == '1' || type2 == 'a')
-						retval =  Math.sqrt(2) / 4;
+						retval =  Math.sqrt(2) * (.25);
 					else if (type2 == '2' || type2 == 'b')
-						retval =  (Math.sqrt(2) + Math.sqrt(8))/8;
+						retval =  (Math.sqrt(2) + Math.sqrt(8)) * (.125);
 				}
 				else{
 					if (type2 == '1' || type2 == 'a')
-						retval =  1/4;
+						retval =  .25;
 					else if (type2 == '2' || type2 == 'b')
-						retval =  1.5/4;
+						retval =  0.375;
 				}
 				break;
 			case 'b':
 				if(diag){
 					if (type2 == '1' || type2 == 'a')
-						retval =  (Math.sqrt(2) + Math.sqrt(8))/8;
+						retval =  (Math.sqrt(2) + Math.sqrt(8)) * (.125);
 					else if (type2 == '2' || type2 == 'b')
-						retval =  Math.sqrt(8)/4;
+						retval =  Math.sqrt(8) * (.25);
 				}
 				else{
 					if (type2 == '1' || type2 == 'a')
-						retval =  1.5/4;
+						retval =  0.375;
 					else if (type2 == '2' || type2 == 'b')
-						retval =  2/4;
+						retval =  .5;
 				}
 				break;
 			default:
@@ -430,7 +430,7 @@ public class Map {
 		return retval;
 	}
 
-	public Node[][] getMap(){
+	public Vertex[][] getMap(){
 		return map;
 	}
 
@@ -452,19 +452,19 @@ public class Map {
 		return mapString;
 	}
 
-	public Node getStart() {
+	public Vertex getStart() {
 		return start;
 	}
 
-	public void setStart(Node start) {
+	public void setStart(Vertex start) {
 		this.start = start;
 	}
 
-	public Node getGoal() {
+	public Vertex getGoal() {
 		return goal;
 	}
 
-	public void setGoal(Node goal) {
+	public void setGoal(Vertex goal) {
 		this.goal = goal;
 	}
 
@@ -475,6 +475,7 @@ public class Map {
 				this.map[i][j].setDistance(32767);
 				this.map[i][j].setPath(false);
 				this.map[i][j].setFVal(0);
+				this.map[i][j].setHVal(0);
 				this.map[i][j].setParent(null);
 			}
 	}

@@ -1,13 +1,13 @@
 package heuristicmap.model;
 
 import java.util.Comparator;
-import heuristicmap.model.Node;
+import heuristicmap.model.Vertex;
 
-public class DistanceComparator implements Comparator<Node> {
+public class DistanceComparator implements Comparator<Vertex> {
 	// Compares f values between two vertices - the tie breaker is the distance from the vertex to the start.
 	// Otherwise, return 0.
 	@Override
-	public int compare(Node v1, Node v2) {
+	public int compare(Vertex v1, Vertex v2) {
 		if (v1.getFVal() < v2.getFVal()) {
 			return -1;
 		} else if (v1.getFVal() > v2.getFVal()) {

@@ -13,15 +13,16 @@ public class Algorithm{
 		this.heuristic = hIn;
 		expansions = 0;
 	}
-	public Node aStarSearch(Map currMap, char heurIn, double weight){
-		Comparator<Node> comparator = new DistanceComparator();
-		PriorityQueue<Node> fringe =
-	            new PriorityQueue<Node>(10, comparator);
-		currMap.getStart().setDistance(0 + heuristic.selectHeuristic(currMap.getStart(), currMap.getGoal(), heurIn));
+	public Vertex aStarSearch(Map currMap, char heurIn, double weight){
+		Comparator<Vertex> comparator = new DistanceComparator();
+		PriorityQueue<Vertex> fringe =
+	            new PriorityQueue<Vertex>(10, comparator);
+		currMap.getStart().setFVal(heuristic.selectHeuristic(currMap.getStart(), currMap.getGoal(), heurIn));
+		currMap.getStart().setDistance(0);
 		currMap.getStart().setParent(currMap.getStart());
 		fringe.add(currMap.getStart());
 		while(!fringe.isEmpty()){
-			Node curr = fringe.poll();
+			Vertex curr = fringe.poll();
 			if(currMap.getGoal().equals(curr)){
 				System.out.println("Expansions: " + expansions);
 				System.out.println("Resulting Path Length: " + curr.getDistance());
@@ -51,14 +52,13 @@ public class Algorithm{
 		return null;
 	}
 
-	public void updateVertex(Map currMap, Node v1, Node v2, PriorityQueue<Node> fringe, char heurIn, double weight){
+	public void updateVertex(Map currMap, Vertex v1, Vertex v2, PriorityQueue<Vertex> fringe, char heurIn, double weight){
 		if(v1.getDistance() + (currMap.findPathDistance(v1, v2)) < v2.getDistance()){
 			v2.setDistance(v1.getDistance() + (currMap.findPathDistance(v1, v2)));
 			v2.setHVal((heuristic.selectHeuristic(v2, currMap.getGoal(), heurIn) * weight));
 			v2.setFVal(v2.getDistance() + v2.getHVal());
 			v2.setParent(v1);
-			if(!fringe.isEmpty())
-				if(fringe.peek().equals(v2))
+			if(fringe.contains(v2))
 					fringe.remove();
 			fringe.add(v2);
 		}

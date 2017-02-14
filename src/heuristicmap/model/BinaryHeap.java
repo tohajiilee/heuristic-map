@@ -11,16 +11,16 @@ public class BinaryHeap{
 	int currCap = 10;
 	int currSize;
 	int index;
-	Node[] array;
+	Vertex[] array;
 
 	public BinaryHeap(){
-		array = new Node[currCap];
+		array = new Vertex[currCap];
 		currSize = 0;
 		array[0] = null;
 		index = 1;
 	}
 
-	public void insert(Node nodeIn){
+	public void insert(Vertex nodeIn){
 		if(currSize > currCap){
 			array = Arrays.copyOf(array, array.length * 2);
 		}
@@ -36,8 +36,8 @@ public class BinaryHeap{
 		bubbleUp();
 	}
 
-	public Node pop(){
-		Node target = array[1];
+	public Vertex pop(){
+		Vertex target = array[1];
 		remove();
 		return target;
 	}
@@ -81,12 +81,12 @@ public class BinaryHeap{
 		}
 	}
 
-	public Node getParent(int i){
+	public Vertex getParent(int i){
 		return array[i/2];
 	}
 
 	public void swap(int a, int b){
-		Node temp = array[a];
+		Vertex temp = array[a];
 		array[a] = array[b];
 		array[b] = temp;
 	}
