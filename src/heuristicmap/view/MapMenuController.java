@@ -82,6 +82,7 @@ public class MapMenuController {
 						currMap.setStart(currMap.getMap()[currMap.getStartGoalPairs()[i][0][0]][currMap.getStartGoalPairs()[i][1][0]]);
 						currMap.setGoal(currMap.getMap()[currMap.getStartGoalPairs()[i][0][1]][currMap.getStartGoalPairs()[i][1][1]]);
 						initiateSearch(' ');
+						System.out.println("");
 					}
 					currMap.setStart(originalStart);
 					currMap.setGoal(originalGoal);
@@ -92,13 +93,14 @@ public class MapMenuController {
 					updateTiles();
 					System.out.println("Tiles updated.");
 				}
+				System.out.println("");
 			}
 		});
 
 		AButton.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event){
-				System.out.println("Beginning A* search.");
+				System.out.println("Beginning A* search with heuristic " + getHeuristic() + ".");
 				if(AutomateCheck.isSelected()){
 					Vertex originalStart = currMap.getStart();
 					Vertex originalGoal = currMap.getGoal();
@@ -106,6 +108,7 @@ public class MapMenuController {
 						currMap.setStart(currMap.getMap()[currMap.getStartGoalPairs()[i][0][0]][currMap.getStartGoalPairs()[i][1][0]]);
 						currMap.setGoal(currMap.getMap()[currMap.getStartGoalPairs()[i][0][1]][currMap.getStartGoalPairs()[i][1][1]]);
 						initiateSearch(getHeuristic());
+						System.out.println("");
 					}
 					currMap.setStart(originalStart);
 					currMap.setGoal(originalGoal);
@@ -116,6 +119,7 @@ public class MapMenuController {
 					updateTiles();
 					System.out.println("Tiles updated.");
 				}
+				System.out.println("");
 			}
 		});
 
@@ -127,7 +131,7 @@ public class MapMenuController {
 			    	return;
 				}
 				WarningLabel.setText("");
-				System.out.println("Beginning weighted A* search with weight " + WeightField.getText());
+				System.out.println("Beginning weighted A* search with weight " + WeightField.getText() + " with heuristic " + getHeuristic() + ".");
 				algorithm.setWeight(Double.parseDouble(WeightField.getText()));
 				if(AutomateCheck.isSelected()){
 					Vertex originalStart = currMap.getStart();
@@ -136,6 +140,7 @@ public class MapMenuController {
 						currMap.setStart(currMap.getMap()[currMap.getStartGoalPairs()[i][0][0]][currMap.getStartGoalPairs()[i][1][0]]);
 						currMap.setGoal(currMap.getMap()[currMap.getStartGoalPairs()[i][0][1]][currMap.getStartGoalPairs()[i][1][1]]);
 						initiateSearch(getHeuristic());
+						System.out.println("");
 					}
 					currMap.setStart(originalStart);
 					currMap.setGoal(originalGoal);
@@ -146,6 +151,7 @@ public class MapMenuController {
 					updateTiles();
 					System.out.println("Tiles updated.");
 				}
+				System.out.println("");
 				algorithm.setWeight(1);
 			}
 		});

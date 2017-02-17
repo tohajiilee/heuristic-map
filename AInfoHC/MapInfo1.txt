@@ -1,0 +1,51 @@
+Beginning A* search with heuristic c.
+Expansions: 14161
+Resulting Path Length: 129.75
+Memory used: 97641.8984375kb
+Time: 8.080988ms
+
+Expansions: 11361
+Resulting Path Length: 103.5
+Memory used: 97641.8984375kb
+Time: 5.824395ms
+
+Expansions: 10080
+Resulting Path Length: 72.25
+Memory used: 97641.8984375kb
+Time: 5.211259ms
+
+Expansions: 13634
+Resulting Path Length: 97.0
+Memory used: 97641.8984375kb
+Time: 6.71921ms
+
+Expansions: 8449
+Resulting Path Length: 90.5
+Memory used: 97641.8984375kb
+Time: 3.293234ms
+
+Expansions: 12642
+Resulting Path Length: 107.5
+Memory used: 97641.8984375kb
+Time: 7.617581ms
+
+Expansions: 4456
+Resulting Path Length: 58.75
+Memory used: 97641.8984375kb
+Time: 3.93442ms
+
+Expansions: 5504
+Resulting Path Length: 63.375
+Memory used: 97641.8984375kb
+Time: 3.517235ms
+
+Expansions: 5845
+Resulting Path Length: 84.75
+Memory used: 97641.8984375kb
+Time: 2.430815ms
+
+Expansions: 13860
+Resulting Path Length: 117.0
+Memory used: 97641.8984375kb
+Time: 7.184593ms
+

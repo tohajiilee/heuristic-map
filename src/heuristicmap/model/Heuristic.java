@@ -58,7 +58,7 @@ public class Heuristic
 	public double Heur4(Vertex v1, Vertex v2){
 		double dx = Math.abs(v1.getX() - v2.getX());
 		double dy = Math.abs(v1.getY() - v2.getY());
-		return (.25 * Math.min(dx, dy)) + (Math.sqrt(2) * .20 * (Math.max(dx, dy) - Math.min(dx, dy)));
+		return (.25 * Math.min(dx, dy)) + (Math.sqrt(2) * .25 * (Math.max(dx, dy) - Math.min(dx, dy)));
 	}
 
 	public double ChebDistance(Vertex v1, Vertex v2){

@@ -1,0 +1,50 @@
+Beginning UCS.
+Expansions: 14990
+Resulting Path Length: 129.75
+Memory used: 92587.25kb
+Time: 7.00642ms
+
+Expansions: 13220
+Resulting Path Length: 103.5
+Memory used: 92587.25kb
+Time: 7.344198ms
+
+Expansions: 13820
+Resulting Path Length: 72.25
+Memory used: 92587.25kb
+Time: 7.028148ms
+
+Expansions: 15137
+Resulting Path Length: 97.0
+Memory used: 92587.25kb
+Time: 6.174419ms
+
+Expansions: 11643
+Resulting Path Length: 90.5
+Memory used: 92587.25kb
+Time: 7.557926ms
+
+Expansions: 14395
+Resulting Path Length: 107.5
+Memory used: 92587.25kb
+Time: 10.101333ms
+
+Expansions: 8413
+Resulting Path Length: 58.75
+Memory used: 92587.25kb
+Time: 5.683358ms
+
+Expansions: 11482
+Resulting Path Length: 63.375
+Memory used: 92587.25kb
+Time: 7.187754ms
+
+Expansions: 9065
+Resulting Path Length: 84.75
+Memory used: 92587.25kb
+Time: 4.491456ms
+
+Expansions: 14781
+Resulting Path Length: 117.0
+Memory used: 92587.25kb
+Time: 7.788642ms

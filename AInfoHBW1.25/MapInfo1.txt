@@ -1,0 +1,51 @@
+Beginning weighted A* search with weight 1.25 with heuristic b.
+Expansions: 13918
+Resulting Path Length: 129.75
+Memory used: 106642.8203125kb
+Time: 9.285136ms
+
+Expansions: 10623
+Resulting Path Length: 103.5
+Memory used: 106642.8203125kb
+Time: 5.321876ms
+
+Expansions: 9310
+Resulting Path Length: 72.25
+Memory used: 106642.8203125kb
+Time: 6.870124ms
+
+Expansions: 12735
+Resulting Path Length: 97.0
+Memory used: 106642.8203125kb
+Time: 8.095605ms
+
+Expansions: 7631
+Resulting Path Length: 90.5
+Memory used: 106642.8203125kb
+Time: 3.29758ms
+
+Expansions: 12096
+Resulting Path Length: 107.5
+Memory used: 106642.8203125kb
+Time: 8.210173ms
+
+Expansions: 3891
+Resulting Path Length: 58.75
+Memory used: 106642.8203125kb
+Time: 2.162567ms
+
+Expansions: 4637
+Resulting Path Length: 63.375
+Memory used: 106642.8203125kb
+Time: 2.485333ms
+
+Expansions: 5097
+Resulting Path Length: 84.75
+Memory used: 106642.8203125kb
+Time: 2.454518ms
+
+Expansions: 13693
+Resulting Path Length: 117.0
+Memory used: 106642.8203125kb
+Time: 8.804346ms
+
