@@ -1,7 +1,7 @@
 package heuristicmap.model;
 
 /*
- *	A model class for Nodes - or in this case, the individual vertices of a map.
+ *	A model class for vertices - or in this case, the individual vertices of a map.
  *	@author Joel Carrillo (jjc372)
  */
 
@@ -26,7 +26,7 @@ public class Vertex {
 	double fVal;
 	double hVal;
 
-	// Parent refers to the vertex that this node was reached from - used primarily for pathing.
+	// Parent refers to the vertex that this vertex was reached from - used primarily for pathing.
 	Vertex parent;
 
 	// If the vertex has been traveled to, disregard this when going through A* or any other algorithm.
@@ -73,7 +73,7 @@ public class Vertex {
 		}
 	}
 
-	// In the event that a river needs to be taken away from a node (specifically if a river is being rejected)
+	// In the event that a river needs to be taken away from a vertex (specifically if a river is being rejected)
 	public void revertRiver(){
 		switch(type){
 			case 'a':
@@ -135,8 +135,8 @@ public class Vertex {
 		isPath = pathIn;
 	}
 
-	public boolean equals(Vertex nodeIn){
-		return (x == nodeIn.getX() && y == nodeIn.getY());
+	public boolean equals(Vertex vertexIn){
+		return (x == vertexIn.getX() && y == vertexIn.getY());
 	}
 
 	public String toString(){

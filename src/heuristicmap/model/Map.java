@@ -1,7 +1,7 @@
 package heuristicmap.model;
 
 /*
- *	A model class for Maps - a series of 160x120 vertices, or in this case, Nodes/
+ *	A model class for Maps - a series of 160x120 vertices.
  *	@author Joel Carrillo (jjc372)
  */
 
@@ -107,8 +107,8 @@ public class Map {
 
 		map = new Vertex[columns][rows];
 
-		// Once initialized, the map will set up 120x160 nodes in a grid. They
-		// all begin as regular nodes.
+		// Once initialized, the map will set up 120x160 vertices in a grid. They
+		// all begin as regular vertices.
 
 		for (int i = 0; i < columns; i++) {
 			for (int j = 0; j < rows; j++) {
@@ -125,9 +125,9 @@ public class Map {
 			int markY = rand.nextInt(rows);
 			hardmarkers[i] = map[markX][markY];
 
-			// The following sets up the 'hard to traverse' nodes in the 31x31
+			// The following sets up the 'hard to traverse' vertices in the 31x31
 			// square around a given 'hard marker.'
-			// Each node has a 50% chance to be hard to traverse if they are
+			// Each vertex has a 50% chance to be hard to traverse if they are
 			// within the square.
 			for (int j = 0; j < 32; j++) {
 				for (int k = 0; k < 32; k++) {

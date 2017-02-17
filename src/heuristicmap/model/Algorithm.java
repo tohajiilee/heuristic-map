@@ -7,17 +7,23 @@ import heuristicmap.model.Map;
 import heuristicmap.model.Heuristic;
 
 public class Algorithm{
+
+	private PriorityQueue<Vertex> fringe;
+	private double weight;
 	Heuristic heuristic;
 	int expansions;
+	char currHeuristic;
+
 	public Algorithm(Heuristic hIn){
 		this.heuristic = hIn;
 		expansions = 0;
+		currHeuristic = ' ';
+		weight = 1;
 	}
-	public Vertex aStarSearch(Map currMap, char heurIn, double weight){
+	public Vertex aStarSearch(Map currMap){
 		Comparator<Vertex> comparator = new DistanceComparator();
-		PriorityQueue<Vertex> fringe =
-	            new PriorityQueue<Vertex>(10, comparator);
-		currMap.getStart().setFVal(heuristic.selectHeuristic(currMap.getStart(), currMap.getGoal(), heurIn));
+		fringe = new PriorityQueue<Vertex>(10, comparator);
+		currMap.getStart().setFVal(heuristic.selectHeuristic(currMap.getStart(), currMap.getGoal(), currHeuristic));
 		currMap.getStart().setDistance(0);
 		currMap.getStart().setParent(currMap.getStart());
 		fringe.add(currMap.getStart());
@@ -41,7 +47,7 @@ public class Algorithm{
 						if(currMap.getMap()[currX + i][currY + j].getType() != '0')
 							if(!(i == 0 && j == 0))
 								if(!currMap.getMap()[currX + i][currY + j].getTraveled()){
-									updateVertex(currMap, curr, currMap.getMap()[currX + i][currY + j], fringe, heurIn, weight);
+									updateVertex(currMap, curr, currMap.getMap()[currX + i][currY + j]);
 								}
 					}
 				}
@@ -52,15 +58,31 @@ public class Algorithm{
 		return null;
 	}
 
-	public void updateVertex(Map currMap, Vertex v1, Vertex v2, PriorityQueue<Vertex> fringe, char heurIn, double weight){
+	public void updateVertex(Map currMap, Vertex v1, Vertex v2){
 		if(v1.getDistance() + (currMap.findPathDistance(v1, v2)) < v2.getDistance()){
 			v2.setDistance(v1.getDistance() + (currMap.findPathDistance(v1, v2)));
-			v2.setHVal((heuristic.selectHeuristic(v2, currMap.getGoal(), heurIn) * weight));
+			v2.setHVal((heuristic.selectHeuristic(v2, currMap.getGoal(), currHeuristic) * weight));
 			v2.setFVal(v2.getDistance() + v2.getHVal());
 			v2.setParent(v1);
 			if(fringe.contains(v2))
-					fringe.remove();
+					fringe.remove(v2);
 			fringe.add(v2);
 		}
+	}
+
+	public void setWeight(double wIn){
+		weight = wIn;
+	}
+
+	public double getWeight(){
+		return weight;
+	}
+
+	public void setHeuristic(char hIn){
+		currHeuristic = hIn;
+	}
+
+	public char getHeuristic(){
+		return currHeuristic;
 	}
 }

@@ -81,13 +81,13 @@ public class MapMenuController {
 					for(int i = 0; i < 9; i++){
 						currMap.setStart(currMap.getMap()[currMap.getStartGoalPairs()[i][0][0]][currMap.getStartGoalPairs()[i][1][0]]);
 						currMap.setGoal(currMap.getMap()[currMap.getStartGoalPairs()[i][0][1]][currMap.getStartGoalPairs()[i][1][1]]);
-						initiateSearch(' ', 1);
+						initiateSearch(' ');
 					}
 					currMap.setStart(originalStart);
 					currMap.setGoal(originalGoal);
 				}
 				WarningLabel.setText("");
-				initiateSearch(' ', 1);
+				initiateSearch(' ');
 				if(!AutomateCheck.isSelected()){
 					updateTiles();
 					System.out.println("Tiles updated.");
@@ -105,13 +105,13 @@ public class MapMenuController {
 					for(int i = 0; i < 9; i++){
 						currMap.setStart(currMap.getMap()[currMap.getStartGoalPairs()[i][0][0]][currMap.getStartGoalPairs()[i][1][0]]);
 						currMap.setGoal(currMap.getMap()[currMap.getStartGoalPairs()[i][0][1]][currMap.getStartGoalPairs()[i][1][1]]);
-						initiateSearch(getHeuristic(), 1);
+						initiateSearch(getHeuristic());
 					}
 					currMap.setStart(originalStart);
 					currMap.setGoal(originalGoal);
 				}
 				WarningLabel.setText("");
-				initiateSearch(getHeuristic(), 1);
+				initiateSearch(getHeuristic());
 				if(!AutomateCheck.isSelected()){
 					updateTiles();
 					System.out.println("Tiles updated.");
@@ -128,23 +128,25 @@ public class MapMenuController {
 				}
 				WarningLabel.setText("");
 				System.out.println("Beginning weighted A* search with weight " + WeightField.getText());
+				algorithm.setWeight(Double.parseDouble(WeightField.getText()));
 				if(AutomateCheck.isSelected()){
 					Vertex originalStart = currMap.getStart();
 					Vertex originalGoal = currMap.getGoal();
 					for(int i = 0; i < 9; i++){
 						currMap.setStart(currMap.getMap()[currMap.getStartGoalPairs()[i][0][0]][currMap.getStartGoalPairs()[i][1][0]]);
 						currMap.setGoal(currMap.getMap()[currMap.getStartGoalPairs()[i][0][1]][currMap.getStartGoalPairs()[i][1][1]]);
-						initiateSearch(getHeuristic(), Double.parseDouble(WeightField.getText()));
+						initiateSearch(getHeuristic());
 					}
 					currMap.setStart(originalStart);
 					currMap.setGoal(originalGoal);
 				}
 				WarningLabel.setText("");
-				initiateSearch(getHeuristic(), Double.parseDouble(WeightField.getText()));
+				initiateSearch(getHeuristic());
 				if(!AutomateCheck.isSelected()){
 					updateTiles();
 					System.out.println("Tiles updated.");
 				}
+				algorithm.setWeight(1);
 			}
 		});
 
@@ -276,11 +278,12 @@ public class MapMenuController {
 		FLabel.setText(Double.toString(f));
 	}
 
-	public Vertex initiateSearch(char heurType, double weight){
+	public Vertex initiateSearch(char heurType){
 		currMap.refreshMap();
 		long startTime; long endTime; double msEndTime;
 		startTime = System.nanoTime();
-		Vertex goalNode = algorithm.aStarSearch(currMap, heurType, weight);
+		algorithm.setHeuristic(heurType);
+		Vertex goalNode = algorithm.aStarSearch(currMap);
 		if(goalNode != null){
 			while(!goalNode.getParent().equals(goalNode)){
 				goalNode.setPath(true);
