@@ -1,54 +1,51 @@
-9392
-67.75
-85269.8359375
-23.608484
+Beginning weighted A* search with weight 1.25 with heuristic b.
+Expansions: 10324
+Resulting Path Length: 111.75
+Memory used: 107080.0234375kb
+Time: 4.238618ms
 
-7950
-30.5
-85269.8359375
-8.654219
+Expansions: 5431
+Resulting Path Length: 63.75
+Memory used: 107080.0234375kb
+Time: 2.588444ms
 
-15774
-91.0
-85269.8359375
-12.6076
+Expansions: 13801
+Resulting Path Length: 116.5
+Memory used: 107080.0234375kb
+Time: 6.823507ms
 
-10933
-58.5
-85269.8359375
-7.814713
+Expansions: 9280
+Resulting Path Length: 91.75
+Memory used: 107080.0234375kb
+Time: 5.153581ms
 
-7745
-48.75
-85269.8359375
-5.401677
+Expansions: 8706
+Resulting Path Length: 96.0
+Memory used: 107080.0234375kb
+Time: 3.624691ms
 
-12324
-52.5
-85269.8359375
-7.98538
+Expansions: 9559
+Resulting Path Length: 82.0
+Memory used: 107080.0234375kb
+Time: 4.384ms
 
-15869
-94.0
-85269.8359375
-8.428244
+Expansions: 13902
+Resulting Path Length: 118.25
+Memory used: 107080.0234375kb
+Time: 5.100247ms
 
-11395
-48.375
-85269.8359375
-5.86943
+Expansions: 11433
+Resulting Path Length: 94.875
+Memory used: 107080.0234375kb
+Time: 4.54479ms
 
-13037
-53.375
-85269.8359375
-9.276836
+Expansions: 10645
+Resulting Path Length: 91.625
+Memory used: 107080.0234375kb
+Time: 6.795457ms
 
-11177
-53.5
-85269.8359375
-4.564542
+Expansions: 10694
+Resulting Path Length: 98.25
+Memory used: 107080.0234375kb
+Time: 4.699654ms
 
-Average Nodes Expanded for Third Map: 8395.3 nodes
-Averagae Length To Start from Goal for Third Map: 59.825
-Average Memory Requirement for Third Map: 85269.8359375 kb
-Average Time Spent for Third Map: 9.4211125 ms

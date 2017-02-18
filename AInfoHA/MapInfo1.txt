@@ -47,4 +47,4 @@ Time: 3.069235ms
 Expansions: 13778
 Resulting Path Length: 117.0
 Memory used: 96371.875kb
-Time: 7.659457ms
+Time: 7.659457ms	
