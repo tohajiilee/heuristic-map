@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
+import heuristicmap.model.Algorithm;
+import heuristicmap.model.Heuristic;
 import heuristicmap.model.Map;
 
 import javafx.event.ActionEvent;
@@ -89,11 +91,39 @@ public class MainMenuController {
 		genReportButton.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event){
-				XSSFWorkbook workbook = new XSSFWorkbook();
-		        XSSFSheet sheet = workbook.createSheet("HeuristicReport");
+				Map currMap;
+				Heuristic heuristic;
+				Algorithm algorithm;
+				
+				File folder = new File("\\Maps/");
+				
+				if (folder.isDirectory())
+					System.out.println("directory found playa");
+				else
+					System.out.println("no dir kind sir");
+				
+				File[] listOfMaps = folder.listFiles();
 
-
-
+			    for (int i = 0; i < listOfMaps.length; i++) {
+			      if (listOfMaps[i].isFile()) {
+			        System.out.println("File " + listOfMaps[i].getName());
+			      } else if (listOfMaps[i].isDirectory()) {
+			        System.out.println("Directory " + listOfMaps[i].getName());
+			      }
+			    }
+		        
+//		        Stage stage = new Stage();
+//				XSSFWorkbook workbook = new XSSFWorkbook();
+//		        XSSFSheet avgSheet = workbook.createSheet("Averages");
+//		        XSSFSheet mapSheet = workbook.createSheet("Map Runs");
+//		        
+//		        for(int i = 0; i < listOfMaps.length; i++){
+//		        	currMap = currentMap;
+//		        }
+		        
+		        
+		        
+					
 			}
 		});
 	}
