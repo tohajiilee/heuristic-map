@@ -53,7 +53,7 @@ public class BinaryHeap{
 	public void bubbleUp(){
 		index = this.currSize;
 
-		while(index > 1 && array[index/2].getDistance() > array[index].getDistance()){
+		while(index > 1 && array[index/2].getGVal(0) > array[index].getGVal(0)){
 			swap(index, index);
 			index = index/2;
 		}
@@ -66,11 +66,11 @@ public class BinaryHeap{
 			int small = index * 2;
 
 			if(index * 2 + 1 <= currSize
-					&& array[index * 2].getDistance() > array[index * 2 + 1].getDistance()){
+					&& array[index * 2].getGVal(0) > array[index * 2 + 1].getGVal(0)){
 				small = index * 2 + 1;
 			}
 
-			if(array[index].getDistance() < array[small].getDistance()){
+			if(array[index].getGVal(0) < array[small].getGVal(0)){
 				swap(index, small);
 			}
 			else{

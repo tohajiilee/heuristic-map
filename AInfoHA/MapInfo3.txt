@@ -49,3 +49,7 @@ Resulting Path Length: 98.25
 Memory used: 96794.28125kb
 Time: 6.455704ms
 
+10339
+96.475
+96794.28215
+7.4822322

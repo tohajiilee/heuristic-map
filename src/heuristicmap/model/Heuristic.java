@@ -11,17 +11,17 @@ import heuristicmap.model.Map;
 public class Heuristic
 {
 
-	public double selectHeuristic(Vertex v1, Vertex v2, char heurIn){
+	public double selectHeuristic(Vertex v1, Vertex v2, int heurIn){
 		switch(heurIn){
-			case 'a':
-				return ManhattanSquares(v1, v2);
-			case 'b':
-				return EuclideanDistance(v1, v2);
-			case 'c':
-				return DiagDistance(v1, v2);
-			case 'd':
+			case 1:
 				return Heur4(v1, v2);
-			case 'e':
+			case 2:
+				return EuclideanDistance(v1, v2);
+			case 3:
+				return DiagDistance(v1, v2);
+			case 4:
+				return ManhattanSquares(v1, v2);
+			case 5:
 				return ChebDistance(v1, v2);
 			default:
 				break;

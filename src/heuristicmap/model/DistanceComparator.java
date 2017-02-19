@@ -8,14 +8,14 @@ public class DistanceComparator implements Comparator<Vertex> {
 	// Otherwise, return 0.
 	@Override
 	public int compare(Vertex v1, Vertex v2) {
-		if (v1.getFVal() < v2.getFVal()) {
+		if (v1.getFVal(0) < v2.getFVal(0)) {
 			return -1;
-		} else if (v1.getFVal() > v2.getFVal()) {
+		} else if (v1.getFVal(0) > v2.getFVal(0)) {
 			return 1;
 		} else {
-			if (v1.getDistance() < v2.getDistance()) {
+			if (v1.getGVal(0) < v2.getGVal(0)) {
 				return -1;
-			} else if (v1.getDistance() > v2.getDistance()) {
+			} else if (v1.getGVal(0) > v2.getGVal(0)) {
 				return 1;
 			}
 		}

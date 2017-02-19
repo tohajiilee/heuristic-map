@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import heuristicmap.model.Algorithm;
 import heuristicmap.model.Heuristic;
 import heuristicmap.model.Map;
+import heuristicmap.model.SequentialAStar;
 import heuristicmap.model.Vertex;
 
 import javafx.event.ActionEvent;
@@ -28,6 +29,7 @@ public class MapMenuController {
 	private Map currMap;
 	private Heuristic heuristic;
 	private Algorithm algorithm;
+	private SequentialAStar seqalgorithm;
 
 	@FXML
 	private TilePane MapPane;
@@ -38,6 +40,8 @@ public class MapMenuController {
 	private Button AButton;
 	@FXML
 	private Button WeightedAButton;
+	@FXML
+	private Button SeqAButton;
 
 	@FXML
 	private CheckBox AutomateCheck;
@@ -68,6 +72,10 @@ public class MapMenuController {
 
 	@FXML
 	private TextField WeightField;
+	@FXML
+	private TextField W1Field;
+	@FXML
+	private TextField W2Field;
 
 	public void start(Stage primaryStage) {
 
@@ -156,6 +164,20 @@ public class MapMenuController {
 			}
 		});
 
+		SeqAButton.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event){
+				WarningLabel.setText("");
+				System.out.println("Beginning sequential A* search.");
+				initiateSeqSearch();
+				if(!AutomateCheck.isSelected()){
+					updateTiles();
+					System.out.println("Tiles updated.");
+				}
+				System.out.println("");
+			}
+		});
+
 		final ToggleGroup group = new ToggleGroup();
 
 		HButtonA.setToggleGroup(group);
@@ -175,19 +197,19 @@ public class MapMenuController {
 		updateTiles();
 	}
 
-	public char getHeuristic(){
+	public int getHeuristic(){
 		if(HButtonA.isSelected())
-			return 'a';
+			return 1;
 		else if(HButtonB.isSelected())
-			return 'b';
+			return 2;
 		else if(HButtonC.isSelected())
-			return 'c';
+			return 3;
 		else if(HButtonD.isSelected())
-			return 'd';
+			return 4;
 		else if(HButtonE.isSelected())
-			return 'e';
+			return 5;
 		else
-			return ' ';
+			return 0;
 	}
 
 
@@ -262,7 +284,9 @@ public class MapMenuController {
 	                    @Override
 	                    public void handle(MouseEvent event) {
 	                    	updateLabels(xVal, yVal,
-	                    			currMap.getMap()[xVal][yVal].getDistance(), currMap.getMap()[xVal][yVal].getHVal(), currMap.getMap()[xVal][yVal].getFVal());
+	                    			currMap.getMap()[xVal][yVal].getGVal(currMap.getGoal().getCurrH()),
+	                    				currMap.getMap()[xVal][yVal].getHVal(currMap.getGoal().getCurrH()),
+	                    					currMap.getMap()[xVal][yVal].getFVal(currMap.getGoal().getCurrH()));
 	                        event.consume();
 	                    }
 	               });
@@ -284,16 +308,34 @@ public class MapMenuController {
 		FLabel.setText(Double.toString(f));
 	}
 
-	public Vertex initiateSearch(char heurType){
+	public Vertex initiateSearch(int h){
 		currMap.refreshMap();
 		long startTime; long endTime; double msEndTime;
 		startTime = System.nanoTime();
-		algorithm.setHeuristic(heurType);
+		algorithm.setHeuristic(h);
 		Vertex goalNode = algorithm.aStarSearch(currMap);
 		if(goalNode != null){
-			while(!goalNode.getParent().equals(goalNode)){
+			while(!goalNode.getParent(0).equals(goalNode)){
 				goalNode.setPath(true);
-				goalNode = goalNode.getParent();
+				goalNode = goalNode.getParent(0);
+			}
+			endTime = System.nanoTime() - startTime;
+			msEndTime = (double)endTime / 1000000;
+			System.out.println("Time: " + msEndTime + "ms");
+		}
+		return goalNode;
+	}
+
+	public Vertex initiateSeqSearch(){
+		seqalgorithm = new SequentialAStar(currMap);
+		currMap.refreshMap();
+		long startTime; long endTime; double msEndTime;
+		startTime = System.nanoTime();
+		Vertex goalNode = seqalgorithm.seqASearch(1.25, 2);
+		if(goalNode != null){
+			while(goalNode.getParent(goalNode.getCurrH()) != null){
+				goalNode.setPath(true);
+				goalNode = goalNode.getParent(goalNode.getCurrH());
 			}
 			endTime = System.nanoTime() - startTime;
 			msEndTime = (double)endTime / 1000000;

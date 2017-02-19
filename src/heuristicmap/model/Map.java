@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -471,12 +472,12 @@ public class Map {
 	public void refreshMap(){
 		for(int i = 0; i < columns; i++)
 			for(int j = 0; j < rows; j++){
-				this.map[i][j].setTraveled(false);
-				this.map[i][j].setDistance(32767);
+				Arrays.fill(this.map[i][j].traveledTo, false);
+				Arrays.fill(this.map[i][j].gVal, 32767);
+				Arrays.fill(this.map[i][j].fVal, 0);
+				Arrays.fill(this.map[i][j].hVal, 0);
+				Arrays.fill(this.map[i][j].parent, null);
 				this.map[i][j].setPath(false);
-				this.map[i][j].setFVal(0);
-				this.map[i][j].setHVal(0);
-				this.map[i][j].setParent(null);
 			}
 	}
 

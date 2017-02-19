@@ -40,6 +40,11 @@
                   <RadioButton fx:id="HButtonA" layoutX="18.0" layoutY="332.0" mnemonicParsing="false" text="A" />
                   <Label layoutX="10.0" layoutY="315.0" text="Select Heuristic" />
                   <RadioButton fx:id="HButtonE" layoutX="18.0" layoutY="400.0" mnemonicParsing="false" text="E" />
+                  <Button fx:id="SeqAButton" layoutX="13.0" layoutY="636.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Sequential A*" />
+                  <Label layoutX="13.0" layoutY="615.0" text="W1" />
+                  <TextField fx:id="W1Field" layoutX="32.0" layoutY="611.0" prefHeight="25.0" prefWidth="30.0" />
+                  <TextField fx:id="W2Field" layoutX="108.0" layoutY="611.0" prefHeight="25.0" prefWidth="30.0" />
+                  <Label layoutX="87.0" layoutY="615.0" text="W2" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0">

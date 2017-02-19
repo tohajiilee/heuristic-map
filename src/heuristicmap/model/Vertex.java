@@ -1,5 +1,7 @@
 package heuristicmap.model;
 
+import java.util.Arrays;
+
 /*
  *	A model class for vertices - or in this case, the individual vertices of a map.
  *	@author Joel Carrillo (jjc372)
@@ -7,7 +9,6 @@ package heuristicmap.model;
 
 public class Vertex {
 	private int x;
-
 	private int y;
 
 	/*
@@ -21,16 +22,18 @@ public class Vertex {
 
 	char type;
 
+	int currH;
+
 	// Distance represents 'g' for the purposes of the algorithm, while fVal represents 'f.' Heuristic value recorded in 'h.'.
-	double distance;
-	double fVal;
-	double hVal;
+	double[] gVal;
+	double[] fVal;
+	double[] hVal;
 
 	// Parent refers to the vertex that this vertex was reached from - used primarily for pathing.
-	Vertex parent;
+	Vertex[] parent;
 
 	// If the vertex has been traveled to, disregard this when going through A* or any other algorithm.
-	boolean traveledTo;
+	boolean[] traveledTo;
 
 	// If isPath is true, then the optimum pathway should go through this vertex.
 	boolean isPath;
@@ -38,14 +41,21 @@ public class Vertex {
 	// Distance is set to 32767, which should effectively represent 'infinity' for the purposes of the algorithm.
 	// No special reason for the number - it can be arbitrary so as long as it greatly exceeds the distances possible.
 	public Vertex(int startx, int starty){
-		parent = null;
+		parent = new Vertex[5];
+		Arrays.fill(parent, null);
 		this.setX(startx);
 		this.setY(starty);
 		type = '1';
-		traveledTo = false;
-		distance = 32767;
+		traveledTo = new boolean[5];
+		Arrays.fill(traveledTo, false);
 		isPath = false;
-		fVal = 0;
+		gVal = new double[5];
+		Arrays.fill(gVal, 32767);
+		fVal = new double[5];
+		Arrays.fill(fVal, 0);
+		hVal = new double[5];
+		Arrays.fill(hVal, 0);
+		currH = 0;
 	}
 
 	public void setType(char typeIn){
@@ -87,28 +97,20 @@ public class Vertex {
 		}
 	}
 
-	public void setParent(Vertex parentIn){
-		parent = parentIn;
+	public void setParent(Vertex parentIn, int i){
+		parent[i] = parentIn;
 	}
 
-	public Vertex getParent(){
-		return parent;
+	public Vertex getParent(int i){
+		return parent[i];
 	}
 
-	public void setDistance(double distanceIn){
-		distance = distanceIn;
+	public boolean getTraveled(int i){
+		return traveledTo[i];
 	}
 
-	public double getDistance(){
-		return distance;
-	}
-
-	public boolean getTraveled(){
-		return traveledTo;
-	}
-
-	public void setTraveled(boolean travelIn){
-		traveledTo = travelIn;
+	public void setTraveled(boolean travelIn, int i){
+		traveledTo[i] = travelIn;
 	}
 
 	public int getX() {
@@ -140,22 +142,42 @@ public class Vertex {
 	}
 
 	public String toString(){
-		return ("X = " + x + " Y = " + y + " Type = " + type + " Traveled In = " + traveledTo + " Distance from Start = " + distance);
+		return ("X = " + x + " Y = " + y + " Type = " + type + " Traveled In = " + traveledTo[0] + " Distance from Start = " + gVal[0]);
 	}
 
-	public double getFVal(){
-		return fVal;
+	public String toString(int i){
+		return ("X = " + x + " Y = " + y + " Type = " + type + " Travel = " + traveledTo[i] + " g = " + gVal[i] + " f = " + fVal[i] + " h = " + hVal[i]);
 	}
 
-	public void setFVal(double fIn){
-		fVal = fIn;
+	public void setGVal(double gIn, int i){
+		gVal[i] = gIn;
 	}
 
-	public double getHVal(){
-		return hVal;
+	public double getGVal(int i){
+		return gVal[i];
 	}
 
-	public void setHVal(double hIn){
-		hVal = hIn;
+	public void setFVal(double fIn, int i){
+		fVal[i] = fIn;
+	}
+
+	public double getFVal(int i){
+		return fVal[i];
+	}
+
+	public double getHVal(int i){
+		return hVal[i];
+	}
+
+	public void setHVal(double hIn, int i){
+		hVal[i] = hIn;
+	}
+
+	public int getCurrH(){
+		return currH;
+	}
+
+	public void setCurrH(int n){
+		currH = n;
 	}
 }
