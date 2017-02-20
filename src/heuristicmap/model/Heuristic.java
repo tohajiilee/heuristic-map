@@ -14,7 +14,7 @@ public class Heuristic
 	public double selectHeuristic(Vertex v1, Vertex v2, int heurIn){
 		switch(heurIn){
 			case 1:
-				return Heur4(v1, v2);
+				return DiagDerivative(v1, v2);
 			case 2:
 				return EuclideanDistance(v1, v2);
 			case 3:
@@ -55,7 +55,7 @@ public class Heuristic
 		return (.25) * (dx + dy) + ((Math.sqrt(2) * .25) - 2 * (.25)) * Math.min(dx, dy);
 	}
 
-	public double Heur4(Vertex v1, Vertex v2){
+	public double DiagDerivative(Vertex v1, Vertex v2){
 		double dx = Math.abs(v1.getX() - v2.getX());
 		double dy = Math.abs(v1.getY() - v2.getY());
 		return (.25 * Math.min(dx, dy)) + (Math.sqrt(2) * .25 * (Math.max(dx, dy) - Math.min(dx, dy)));
@@ -64,6 +64,6 @@ public class Heuristic
 	public double ChebDistance(Vertex v1, Vertex v2){
 		double dx = Math.abs(v1.getX() - v2.getX());
 		double dy = Math.abs(v1.getY() - v2.getY());
-		return (.5) *  Math.max(dx, dy);
+		return Math.max(dx, dy);
 	}
 }

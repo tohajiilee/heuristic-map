@@ -22,9 +22,18 @@ public class Vertex {
 
 	char type;
 
+	// The 'current heuristic.' Used solely for goal nodes - this is for tracking the path for Sequential A*.
 	int currH;
 
+	// Number of expansions taken to get to the goal. Used for statistics purposes.
+	int expansions;
+	// Amount of memory used to get to the goal, stored in kilobytes. Used for statistics purposes.
+	double memUsed;
+	// Time taken to get to the goal, stored in milliseconds. Used for statistics purposes.
+	double timeTaken;
+
 	// Distance represents 'g' for the purposes of the algorithm, while fVal represents 'f.' Heuristic value recorded in 'h.'.
+	// 'g' is used for statistics purposes as well.
 	double[] gVal;
 	double[] fVal;
 	double[] hVal;
@@ -56,6 +65,9 @@ public class Vertex {
 		hVal = new double[5];
 		Arrays.fill(hVal, 0);
 		currH = 0;
+		expansions = 0;
+		timeTaken = 0;
+		memUsed = 0;
 	}
 
 	public void setType(char typeIn){
@@ -179,5 +191,29 @@ public class Vertex {
 
 	public void setCurrH(int n){
 		currH = n;
+	}
+
+	public int getExpansions(){
+		return expansions;
+	}
+
+	public void setExpansions(int expIn){
+		expansions = expIn;
+	}
+
+	public double getMemUsed(){
+		return memUsed;
+	}
+
+	public void setMemUsed(double memIn){
+		memUsed = memIn;
+	}
+
+	public double getTimeTaken(){
+		return timeTaken;
+	}
+
+	public void setTimeTaken(double timeIn){
+		timeTaken = timeIn;
 	}
 }

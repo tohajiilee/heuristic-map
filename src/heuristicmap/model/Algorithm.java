@@ -30,10 +30,9 @@ public class Algorithm{
 		while(!fringe.isEmpty()){
 			Vertex curr = fringe.poll();
 			if(currMap.getGoal().equals(curr)){
-				System.out.println("Expansions: " + expansions);
-				System.out.println("Resulting Path Length: " + curr.getGVal(0));
+				curr.setExpansions(expansions);
 				double endMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-				System.out.println("Memory used: " + endMem / 1024 + "kb");
+				curr.setMemUsed(endMem / 1024);
 				expansions = 0;
 				return curr;
 			}

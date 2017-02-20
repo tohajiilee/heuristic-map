@@ -3,21 +3,20 @@ package heuristicmap.model;
 import heuristicmap.model.MultiFringe;
 import heuristicmap.view.MainMenuController;
 
-public class SequentialAStar{
+public class IntegratedAStar{
 	MultiFringe fringe;
 	Heuristic heuristic;
 	int expansions;
 	Map currMap;
 
-	public SequentialAStar(Map mapIn){
+	public IntegratedAStar(Map mapIn){
 		fringe = new MultiFringe();
 		heuristic = new Heuristic();
 		expansions = 0;
 		currMap = MainMenuController.currentMap;
 	}
 
-	public void expandState(Vertex v, int i, double w1){
-		v.setTraveled(true, i);
+	public void expandState(Vertex v, int i, double w1, double w2){
 		expansions++;
 		for(int j = -1; j < 2; j++){
 			for(int l = -1; l < 2; l++){
@@ -26,18 +25,26 @@ public class SequentialAStar{
 					v.getY() + l < currMap.rows && v.getY() + l >= 0)
 				if(currMap.getMap()[v.getX() + j][v.getY() + l].getType() != '0'){
 					Vertex vn = currMap.getMap()[v.getX() + j][v.getY() + l];
-					if(vn.getX() == currMap.getGoal().getX() && vn.getY() == currMap.getGoal().getY()){
-						currMap.setGoal(vn);
-						currMap.getGoal().currH = i;
-						vn.setParent(v, i);
-					}
-					if(vn.getGVal(i) > (v.getGVal(i) + currMap.findPathDistance(v,vn))){
-						vn.setGVal(v.getGVal(i) + currMap.findPathDistance(v, vn), i);
-						vn.setParent(v, i);
-						if(!vn.getTraveled(i)){
-							vn.setHVal((heuristic.selectHeuristic(vn, currMap.getGoal(), i + 1) * w1), i);
-							vn.setFVal((vn.getGVal(i) + vn.getHVal(i)), i);
-							fringe.add(i, vn);
+					if(vn.getGVal(0) > (v.getGVal(0) + currMap.findPathDistance(v,vn))){
+						vn.setGVal(v.getGVal(0) + currMap.findPathDistance(v, vn), 0);
+						vn.setParent(v, 0);
+						if(vn.equals(currMap.getGoal()))
+							currMap.setGoal(vn);
+						if(!vn.getTraveled(0)){
+							if(fringe.hmap[0].containsValue(vn))
+								fringe.remove(vn, 0);
+							vn.setHVal(heuristic.selectHeuristic(vn, currMap.getGoal(), i + 1), 0);
+							vn.setFVal(getKey(vn, i, w1), 0);
+							fringe.add(0, vn);
+							if(!vn.getTraveled(1)){
+								for(int x = 1; x < 5; x++){
+									if(fringe.hmap[x].containsValue(vn))
+										fringe.remove(vn, x);
+									vn.setHVal(heuristic.selectHeuristic(vn, currMap.getGoal(), x + 1), x);
+									vn.setFVal(getKey(vn, x, w1), x);
+									fringe.add(x, vn);
+								}
+							}
 						}
 					}
 				}
@@ -45,7 +52,7 @@ public class SequentialAStar{
 		}
 	}
 
-	public Vertex seqASearch(double w1, double w2){
+	public Vertex intASearch(double w1, double w2){
 		for(int i = 0; i < 5; i++){
 			currMap.getStart().setGVal(0, i);
 			currMap.getStart().setHVal((heuristic.selectHeuristic(currMap.getStart(), currMap.getGoal(), i + 1) * w1), i);
@@ -63,8 +70,10 @@ public class SequentialAStar{
 					}
 					else{
 						Vertex v = fringe.hmap[i].get(1);
-						fringe.remove(i);
-						expandState(v, i, w1);
+						for(int n = 0; n < 5; n++)
+							fringe.remove(n);
+						expandState(v, i, w1, w2);
+						v.setTraveled(true, 1);
 					}
 				}
 				else{
@@ -76,14 +85,20 @@ public class SequentialAStar{
 					}
 					else{
 						Vertex v = fringe.hmap[0].get(1);
-						fringe.remove(0);
-						expandState(v, 0, w1);
+						for(int n = 0; n < 5; n++)
+							fringe.remove(n);
+						expandState(v, 0, w1, w2);
+						v.setTraveled(true, 0);
 					}
 				}
 			}
 		}
 		System.out.println("Failed.\n");
 		return null;
+	}
+
+	public double getKey(Vertex v, int i, double w1){
+		return v.getGVal(i) + v.getHVal(i) * w1;
 	}
 
 	public void giveStats(Map currMap){

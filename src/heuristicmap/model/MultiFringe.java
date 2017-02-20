@@ -32,6 +32,19 @@ public class MultiFringe{
 		bubbleDown(i);
 	}
 
+	public void remove(Vertex v, int i){ 
+		for(int n = 1; n < currSize[i]; n++){
+			if(hmap[i].get(n).equals(v)){
+				for(int m = n; m < currSize[i]; m++){
+					hmap[i].put(m, hmap[i].get(m + 1));
+				}
+				hmap[i].remove(currSize[i]);
+				currSize[i]--;
+				break;
+			}
+		}
+	}
+
 	public void bubbleDown(int i){
 		int index = 1;
 		while(index * 2 <= currSize[i]){

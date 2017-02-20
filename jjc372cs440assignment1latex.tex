@@ -1,0 +1,374 @@
+\documentclass [a4paper,12pt]{article}
+\begin {document}
+
+\textbf{\huge{CS440, Assignment 1}}
+
+
+
+	\large{Joel Carrillo (jjc372), Lukasz Gremza (ldg65)}
+
+
+
+	\textbf{\large{1: Description}}\\
+
+
+		The aim of this project was to construct several different algorithms to navigate a 160x120 map of vertices.
+		The algorithms, Uniform-Cost Search, A* Search, Weighted A* Search, Sequential A* Search, and Integrated A* Search
+		entail vastly different approaches to one another, and the differences between them are explored here.
+
+		Also crucial to this project are \emph{heuristics} - means by which the algorithms can further narrow their search to find the
+		shortest path from a start to its goal. Five different ones are to be examined here, each one with its own particular qualities.
+
+		This project was coded in Java, using JavaFX 8 to render a graphical UI through which the program operates. Consequently,
+		due to how the map is rendered, it takes a significantly long amount of time to load. This, however, has no bearing on the efficiency
+		or speed of the algorithms themselves.\\
+
+	\textbf{\large{2: Optimizations}}\\
+
+		The algorithms for the searches are each streamlined in some way. Most notably, there are no 'closed' or 'open' lists to speak of. Instead,
+		each vertex in the map is given a 'traveled' node that determines whether or not it has been reached at some point, thus mitigating the need
+		for two seperate lists. Furthermore, the need to set a visited vertex's \emph{g-value} to infinity or its parent to null is also mitigated, due to
+		how each vertex is initialized and given those values from the outset.
+
+		For this part of the project, the algorithms for UCS, A* and Weighted A* use a PriorityQueue class native to Java - it is fast, reliable for its purposes,
+		and relatively simple to use.\\
+	\textbf{\large{3: Heuristics}}\\
+		For the purposes of this section, the following will be used repeatedly for the heuristic equations, and are thus useful to keep in mind:\\
+			\[ dx = abs(v1.x - v2.x) \]
+			\[ dy = abs(v1.y - v2.y) \]\\
+
+		The best admissible and consistent heuristic used here is a derivative of Diagonal Distance:\\
+			\emph{1. Derivative Diagonal Distance}
+			\[ h = (dx + dy) / 4 + (\sqrt{2}/4 * (max(dx, dy) - min(dx, dy)))\]\\
+
+		As with the other heuristics used in this project, it is computationally inexpensive to compute, while still maintaining a level of necessary 'aggression'
+		to be reliable for A* Search. The lowest possible cost between two vertices on the map is used in a horizontal/vertical context as well as a diagonal context.
+		Using this, the \emph{h-values} are not so high as to dissuade the algorithm from using highways if they are nearby, and it will often account for and usually
+		favor diagonal movement.\\
+		Other heuristics also include:\\
+
+			\emph{2. Euclidean Distance}\\
+				\[ h = \sqrt{dx^2 + dy^2}/4\]\\
+
+			A useful, admissible heuristic for maps that allow movement in any angle or direction (i.e. not strictly a grid-based world), Euclidean Distance uses the Pythagorean
+			Theorem and merely finds c for $a^2 + b^2 = c^2$. It is short and simple, but will take somewhat longer to produce a path.
+		
+			\emph{3. Diagonal Distance}\\
+				\[ h = (dx + dy) / 4 + (\sqrt{2}/4 - 1/2) * min(dx, dy)\]\\
+			A useful, admissible heuristic for maps that allow 8-directional movement. Similar to its derivative that is now used as the main heuristic, this heuristic only addresses
+			direct diagonal distance from point A to point B, with less consideration given to complications such as rivers or blocks. It is somewhat weaker than
+			its derivative in that regard.\\
+
+			\emph{4. Manhattan Squares}\\
+				\[ h = (dx + dy) / 4 \]\\
+			A useful, admissible heuristic for maps that do not involve diagonal movement, Manhattan Squares is a simple measure of the number of squares between
+			point A and B. Like the derivative of Diagonal Distance, it is multiplied by the lowest path value between two adjacent vertices - only horizontally or vertically.
+			Its usefulness is diminished due to its inability to interpret diagonal movement.\\
+
+			\emph{5. Chebychev Distance}\\
+				\[ h = max(dx, dy) \]\\
+			An inamissible heuristic that might be useful here if there were no path costs between two different vertices. It is a generally inadmissible heuristic, providing quick
+			results with the lowest amount of memory or time required, but producing suboptimal results.
+
+	\textbf{\large{4: Statistics}}\\
+		\emph{NOTE:} The following statistics are recorded off of 50 benchmarks: 5 maps, with 10 different start/goal pairs within each.\\
+		\begin{tabular}{|r|r|}
+		 \multicolumn{2}{c}{UCS}\\
+		\hline
+		$Average  Expansions$&$13029$\\
+		\hline
+		$Average  Cost$&$93.9375$\\
+		\hline
+		$Average  Memory Use$&$227195.500625kb$\\
+		\hline
+		$Average  Time Taken$&$7.83301216ms$\\
+		\hline
+		\end{tabular}
+
+		\begin{tabular}{|r|r|}
+		 \multicolumn{2}{c}{A*, heuristic 1}\\
+		\hline
+		$Average  Expansions$&$12869$\\
+		\hline
+		$Average  Cost$&$95.9775$\\
+		\hline
+		$Average  Memory Use$&$156691.03859375kb$\\
+		\hline
+		$Average  Time Taken$&$8.29751778ms$\\
+		\hline
+		\end{tabular}
+
+		\begin{tabular}{|r|r|}
+		 \multicolumn{2}{c}{A*, heuristic 2}\\
+		\hline
+		$Average  Expansions$&$12892$\\
+		\hline
+		$Average  Cost$&$95.9375$\\
+		\hline
+		$Average  Memory Use$&$157694.94640625kb$\\
+		\hline
+		$Average  Time Taken$&$8.15837462ms$\\
+		\hline
+		\end{tabular}
+
+		\begin{tabular}{|r|r|}
+		 \multicolumn{2}{c}{A*, heuristic 3}\\
+		\hline
+		$Average  Expansions$&$12880$\\
+		\hline
+		$Average  Cost$&$95.9355$\\
+		\hline
+		$Average  Memory Use$&$158073.525kb$\\
+		\hline
+		$Average  Time Taken$&$7.964550302ms$\\
+		\hline
+		\end{tabular}
+
+		\begin{tabular}{|r|r|}
+		 \multicolumn{2}{c}{A*, heuristic 4}\\
+		\hline
+		$Average  Expansions$&$12828$\\
+		\hline
+		$Average  Cost$&$95.9375$\\
+		\hline
+		$Average  Memory Use$&$158407.0125kb$\\
+		\hline
+		$Average  Time Taken$&$7.3331171ms$\\
+		\hline
+		\end{tabular}
+
+		\begin{tabular}{|r|r|}
+		 \multicolumn{2}{c}{A*, heuristic 5}\\
+		\hline
+		$Average  Expansions$&$11886$\\
+		\hline
+		$Average  Cost$&$97.5525$\\
+		\hline
+		$Average  Memory Use$&$161111.609375kb$\\
+		\hline
+		$Average  Time Taken$&$6.55635508ms$\\
+		\hline
+		\end{tabular}
+
+		\begin{tabular}{|r|r|}
+		 \multicolumn{2}{c}{Weighted A*, heuristic 1, weight 1.25}\\
+		\hline
+		$Average  Expansions$&$12807$\\
+		\hline
+		$Average  Cost$&$95.9975$\\
+		\hline
+		$Average  Memory Use$&$162935.98125kb$\\
+		\hline
+		$Average  Time Taken$&$7.435801498ms$\\
+		\hline
+		\end{tabular}
+
+		\begin{tabular}{|r|r|}
+		\multicolumn{2}{c}{Weighted A*, heuristic 2, weight 1.25}\\
+		\hline
+		$Average  Expansions$&$12840$\\
+		\hline
+		$Average  Cost$&$95.9375$\\
+		\hline
+		$Average  Memory Use$&$162381.6328125$\\
+		\hline
+		$Average  Time Taken$&$7.10320704ms$\\
+		\hline
+		\end{tabular}
+
+		\begin{tabular}{|r|r|}
+		\multicolumn{2}{c}{Weighted A*, heuristic 3, weight 1.25}\\
+		\hline
+		$Average  Expansions$&$12821$\\
+		\hline
+		$Average  Cost$&$95.9375$\\
+		\hline
+		$Average  Memory Use$&$162330.115625kb$\\
+		\hline
+		$Average  Time Taken$&$7.67874056ms$\\
+		\hline
+		\end{tabular}
+
+		\begin{tabular}{|r|r|}
+		 \multicolumn{2}{c}{Weighted A*, heuristic 4, weight 1.25}\\
+		\hline
+		$Average  Expansions$&$12732$\\
+		\hline
+		$Average  Cost$&$95.9425$\\
+		\hline
+		$Average  Memory Use$&$162148.059375kb$\\
+		\hline
+		$Average  Time Taken$&$7.81634846ms$\\
+		\hline
+		\end{tabular}
+
+		\begin{tabular}{|r|r|}
+		 \multicolumn{2}{c}{Weighted A*, heuristic 5, weight 1.25}\\
+		\hline
+		$Average  Expansions$&$11714$\\
+		\hline
+		$Average  Cost$&$99.4125$\\
+		\hline
+		$Average  Memory Use$&$162657.94375kb$\\
+		\hline
+		$Average  Time Taken$&$6.69117362ms$\\
+		\hline
+		\end{tabular}
+
+		\begin{tabular}{|r|r|}
+		 \multicolumn{2}{c}{Weighted A*, heuristic 1, weight 2}\\
+		\hline
+		$Average  Expansions$&$12432$\\
+		\hline
+		$Average  Cost$&$96.36$\\
+		\hline
+		$Average  Memory Use$&$165365.7359375kb$\\
+		\hline
+		$Average  Time Taken$&$7.57290358ms$\\
+		\hline
+		\end{tabular}
+
+		\begin{tabular}{|r|r|}
+		\multicolumn{2}{c}{Weighted A*, heuristic 2, weight 2}\\
+		\hline
+		$Average  Expansions$&$12588$\\
+		\hline
+		$Average  Cost$&$96$\\
+		\hline
+		$Average  Memory Use$&$165901.5640625kb$\\
+		\hline
+		$Average  Time Taken$&$7.69503302ms$\\
+		\hline
+		\end{tabular}
+
+		\begin{tabular}{|r|r|}
+		\multicolumn{2}{c}{Weighted A*, heuristic 3, weight 2}\\
+		\hline
+		$Average  Expansions$&$12548$\\
+		\hline
+		$Average  Cost$&$96$\\
+		\hline
+		$Average  Memory Use$&$165901.5640625kb$\\
+		\hline
+		$Average  Time Taken$&$7.35057878ms$\\
+		\hline
+		\end{tabular}
+
+		\begin{tabular}{|r|r|}
+		 \multicolumn{2}{c}{Weighted A*, heuristic 4, weight 2}\\
+		\hline
+		$Average  Expansions$&$12438$\\
+		\hline
+		$Average  Cost$&$96.1825$\\
+		\hline
+		$Average  Memory Use$&$166313.28125kb$\\
+		\hline
+		$Average  Time Taken$&$7.38264192ms$\\
+		\hline
+		\end{tabular}
+
+		\begin{tabular}{|r|r|}
+		 \multicolumn{2}{c}{Weighted A*, heuristic 5, weight 2}\\
+		\hline
+		$Average  Expansions$&$11711$\\
+		\hline
+		$Average  Cost$&$100.2875$\\
+		\hline
+		$Average  Memory Use$&$167562.58125kb$\\
+		\hline
+		$Average  Time Taken$&$7.012722096ms$\\
+		\hline
+		\end{tabular}\\\\
+	\textbf{\large{5: Observations}}	
+		\\
+		It is clear enough that UCS is meant as the 'baseline' algortihm. It is not strictly fast, light on memory, nor efficient: but it is guaranteed to be optimal.
+		That guaranteed optimality lends well to its ability to be used as a means of checking against other algorithms.
+		A*, for example, is certain to be more efficient on all counts in terms of time taken to compute. In all cases, all heuristics tend towards lower numbers of
+		expansions made, though the numbers tend to be smaller due to the heuristics not being very 'aggressive,' with the exception of 5, the Chebychev heuristic.
+		While the derived Diagonal, 1, is not incredibly distinct from the others in terms of expansions, it tends towards less intensive memory usage and fewer expansions,
+		while notably not being completely optimal.
+		
+		The lack of aggressiveness in several of the algorithms also lends towards a 'weaker' weighted A*. Generally, higher weight values point towards quicker speed,
+		less expansions, but higher costs from start to goal. This is due to the fact that the weight 'strengthens' the heuristic, making the inclination for a linear path to the goal stronger,
+		as opposed to seeking the 'best route' past blocks and moving along rivers. In general, while performance is quick and less memory intensive, the heuristics submitted
+		are not aggressive or strong enough to show deep gaps between UCS and their respective results in A*, again with the exception of heuristic 5.\\
+	\textbf{\large{6: Phase 2 Statistics}}
+				\begin{tabular}{|r|r|}
+		\multicolumn{2}{c}{Sequential A*, w1 1.25, w2 2}\\
+		\hline
+		$Average  Expansions$&$16040$\\
+		\hline
+		$Average  Cost$&$30805$\\
+		\hline
+		$Average  Memory Use$&$378051kb$\\
+		\hline
+		$Average  Time Taken$&$20.28653004ms$\\
+		\hline
+		\end{tabular}
+
+		\begin{tabular}{|r|r|}
+		\multicolumn{2}{c}{Weighted A*, heuristic 3, weight 2}\\
+		\hline
+		$Average  Expansions$&$19228$\\
+		\hline
+		$Average  Cost$&$2715$\\
+		\hline
+		$Average  Memory Use$&$410802kb$\\
+		\hline
+		$Average  Time Taken$&$21.73608218ms$\\
+		\hline
+		\end{tabular}
+
+		\begin{tabular}{|r|r|}
+		 \multicolumn{2}{c}{Weighted A*, heuristic 4, weight 2}\\
+		\hline
+		$Average  Expansions$&$9394$\\
+		\hline
+		$Average  Cost$&$96.4325$\\
+		\hline
+		$Average  Memory Use$&$385625kb$\\
+		\hline
+		$Average  Time Taken$&$239.155705ms$\\
+		\hline
+		\end{tabular}
+
+		\begin{tabular}{|r|r|}
+		 \multicolumn{2}{c}{Weighted A*, heuristic 5, weight 2}\\
+		\hline
+		$Average  Expansions$&$6581$\\
+		\hline
+		$Average  Cost$&$101.8275$\\
+		\hline
+		$Average  Memory Use$&$358183kb$\\
+		\hline
+		$Average  Time Taken$&$248.39882ms$\\
+		\hline
+		\end{tabular}\\\\
+
+	\textbf{\large{7: Phase 2 Observations}}\\
+		Optimizations for this phase include adding an 'array' of possible values for each map-relevant value in the Vertex class. That way, as opposed to five different arrays
+		or queues to store for use for the Sequential or Integrated A* searches, it can be called on immediately. The Priority Queue has also been supplanted here and replaced
+		with a Hashmap that does similar work, so as to avoid issues with the Comparator class. Given the results of the Sequential searches, there are issues with calculating the
+		g-values, as well as the high amount of expansions that occur. While the time taken compared to Integrated A* is much lower, the tradeoff is severely inaccurate
+		costs - such is the issue with replacing 'Math.inf' with an arbitrary value as 32767.\\
+		Luckily, this issue is not encountered in Integrated A*, which shows to be an efficient, albeit very time-consuming algorithm. The tradeoff is lower speed for less memory use,
+		a suboptimal-but-close-to-optimal algorithm, and heightened efficiency. Due to the several different heuristics operating and contributing to the h-values stored in Integrated A*'s
+		process, divining an effective path from the start to the goal is a triviality: at the cost of the long expanse of time taken to actually process each h-value.\\
+		The sole inadmissible algorithm, 5, benefits Integrated A* greatly here, as the 'swing' provided by its contribution points it more aggressively towards the goal, 
+		while still taking account the important river traversal performed in the other, admissible algorithms.\\
+		The heightened time taken to complete searches for Integrated A* may be due to its traversal of other heuristics besides the anchor and the inadmissible heuristic - 
+		that is, the other, admissible heuristics. It may thus be pointless to navigate through them, as this algorithm is primarily concerned with the useful suboptimality that
+		inadmissible but aggressive heuristics provide.\\
+	\textbf{\large{8: Answer to Question (J)}}\\
+		i)\\
+			There are only two lists that a vertex s can be placed in for Integrated A*: Open and Closed for the Anchor Heuristic, and Open and Closed for Inadmissible Heuristics.
+			Because the vertex s must be in at least \emph{one} list by the time its state is expanded the first time, it will already be set to be precluded from its 'initial' close list submission.
+			Once s is in the closed list for anchors and the closed list for inadmissibles, it can be expaned no longer.\\
+		ii)\\
+			Simply put, if it is expanded in the Anchor search, it is already placed in the Closed list for the Anchor Heuristic. Thus, when it is next brought up in 'ExpandState(s)',
+			it will be checked to see if it is in the Closed list for Anchor and be skipped. The check for its presence in the closed Inadmissible list never occurs, because it is already shown
+			to be in the closed list for Anchor.\\
+		iii)\\
+			In line 29 of Algorithm 3, state s will only go to be expanded and placed in the closed list for inadmissible heuristics if and only if its ith search is further away than the anchor's.
+			In that case, only if it gets closer and satisfies the condition will it be able to be expanded again, this time through the Anchor.
+\end {document}

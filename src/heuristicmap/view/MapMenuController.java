@@ -2,9 +2,11 @@ package heuristicmap.view;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import heuristicmap.model.Algorithm;
 import heuristicmap.model.Heuristic;
+import heuristicmap.model.IntegratedAStar;
 import heuristicmap.model.Map;
 import heuristicmap.model.SequentialAStar;
 import heuristicmap.model.Vertex;
@@ -12,7 +14,11 @@ import heuristicmap.model.Vertex;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -22,6 +28,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
@@ -30,6 +37,7 @@ public class MapMenuController {
 	private Heuristic heuristic;
 	private Algorithm algorithm;
 	private SequentialAStar seqalgorithm;
+	private IntegratedAStar intalgorithm;
 
 	@FXML
 	private TilePane MapPane;
@@ -42,6 +50,8 @@ public class MapMenuController {
 	private Button WeightedAButton;
 	@FXML
 	private Button SeqAButton;
+	@FXML
+	private Button IntAButton;
 
 	@FXML
 	private CheckBox AutomateCheck;
@@ -58,6 +68,12 @@ public class MapMenuController {
 	private Label HLabel;
 	@FXML
 	private Label GLabel;
+	@FXML
+	private Label TimeLabel;
+	@FXML
+	private Label MemLabel;
+	@FXML
+	private Label ExpansionLabel;
 
 	@FXML
 	private RadioButton HButtonA;
@@ -82,6 +98,8 @@ public class MapMenuController {
 		UCSButton.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event){
+				int totalExpansions = 0;
+				double totalG = 0, totalMem = 0, totalTime = 0;
 				System.out.println("Beginning UCS.");
 				if(AutomateCheck.isSelected()){
 					Vertex originalStart = currMap.getStart();
@@ -89,17 +107,33 @@ public class MapMenuController {
 					for(int i = 0; i < 9; i++){
 						currMap.setStart(currMap.getMap()[currMap.getStartGoalPairs()[i][0][0]][currMap.getStartGoalPairs()[i][1][0]]);
 						currMap.setGoal(currMap.getMap()[currMap.getStartGoalPairs()[i][0][1]][currMap.getStartGoalPairs()[i][1][1]]);
-						initiateSearch(' ');
-						System.out.println("");
+						Vertex curr = initiateSearch(' ');
+						totalExpansions += curr.getExpansions();
+						totalG += curr.getGVal(0);
+						totalMem += curr.getMemUsed();
+						totalTime += curr.getTimeTaken();
 					}
 					currMap.setStart(originalStart);
 					currMap.setGoal(originalGoal);
 				}
 				WarningLabel.setText("");
-				initiateSearch(' ');
+				Vertex curr = initiateSearch(' ');
 				if(!AutomateCheck.isSelected()){
 					updateTiles();
 					System.out.println("Tiles updated.");
+					TimeLabel.setText(curr.getTimeTaken() + "ms");
+					MemLabel.setText(curr.getMemUsed() + "kb");
+					ExpansionLabel.setText(Integer.toString(curr.getExpansions()));
+				}
+				else{
+					totalExpansions += curr.getExpansions();
+					totalG += curr.getGVal(0);
+					totalMem += curr.getMemUsed();
+					totalTime += curr.getTimeTaken();
+					System.out.println("Average Expansions: " + (totalExpansions / 10));
+					System.out.println("Average Cost: " + (totalG / 10));
+					System.out.println("Average Memory Used: " + (totalMem / 10) + "kb");
+					System.out.println("Average Time Taken: " + (totalTime / 10) + "ms");
 				}
 				System.out.println("");
 			}
@@ -108,6 +142,8 @@ public class MapMenuController {
 		AButton.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event){
+				int totalExpansions = 0;
+				double totalG = 0, totalMem = 0, totalTime = 0;
 				System.out.println("Beginning A* search with heuristic " + getHeuristic() + ".");
 				if(AutomateCheck.isSelected()){
 					Vertex originalStart = currMap.getStart();
@@ -115,17 +151,33 @@ public class MapMenuController {
 					for(int i = 0; i < 9; i++){
 						currMap.setStart(currMap.getMap()[currMap.getStartGoalPairs()[i][0][0]][currMap.getStartGoalPairs()[i][1][0]]);
 						currMap.setGoal(currMap.getMap()[currMap.getStartGoalPairs()[i][0][1]][currMap.getStartGoalPairs()[i][1][1]]);
-						initiateSearch(getHeuristic());
-						System.out.println("");
+						Vertex curr = initiateSearch(' ');
+						totalExpansions += curr.getExpansions();
+						totalG += curr.getGVal(0);
+						totalMem += curr.getMemUsed();
+						totalTime += curr.getTimeTaken();
 					}
 					currMap.setStart(originalStart);
 					currMap.setGoal(originalGoal);
 				}
 				WarningLabel.setText("");
-				initiateSearch(getHeuristic());
+				Vertex curr = initiateSearch(getHeuristic());
 				if(!AutomateCheck.isSelected()){
 					updateTiles();
 					System.out.println("Tiles updated.");
+					TimeLabel.setText(curr.getTimeTaken() + "ms");
+					MemLabel.setText(curr.getMemUsed() + "kb");
+					ExpansionLabel.setText(Integer.toString(curr.getExpansions()));
+				}
+				else{
+					totalExpansions += curr.getExpansions();
+					totalG += curr.getGVal(0);
+					totalMem += curr.getMemUsed();
+					totalTime += curr.getTimeTaken();
+					System.out.println("Average Expansions: " + (totalExpansions / 10));
+					System.out.println("Average Cost: " + (totalG / 10));
+					System.out.println("Average Memory Used: " + (totalMem / 10) + "kb");
+					System.out.println("Average Time Taken: " + (totalTime / 10) + "ms");
 				}
 				System.out.println("");
 			}
@@ -134,6 +186,8 @@ public class MapMenuController {
 		WeightedAButton.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event){
+				int totalExpansions = 0;
+				double totalG = 0, totalMem = 0, totalTime = 0;
 				if(Double.parseDouble(WeightField.getText()) < 1 || !isNumeric(WeightField.getText())){
 					WarningLabel.setText("Weight: Number >= 1.");
 			    	return;
@@ -147,17 +201,34 @@ public class MapMenuController {
 					for(int i = 0; i < 9; i++){
 						currMap.setStart(currMap.getMap()[currMap.getStartGoalPairs()[i][0][0]][currMap.getStartGoalPairs()[i][1][0]]);
 						currMap.setGoal(currMap.getMap()[currMap.getStartGoalPairs()[i][0][1]][currMap.getStartGoalPairs()[i][1][1]]);
-						initiateSearch(getHeuristic());
+						Vertex curr = initiateSearch(' ');
+						totalExpansions += curr.getExpansions();
+						totalG += curr.getGVal(0);
+						totalMem += curr.getMemUsed();
+						totalTime += curr.getTimeTaken();
 						System.out.println("");
 					}
 					currMap.setStart(originalStart);
 					currMap.setGoal(originalGoal);
 				}
 				WarningLabel.setText("");
-				initiateSearch(getHeuristic());
+				Vertex curr = initiateSearch(getHeuristic());
 				if(!AutomateCheck.isSelected()){
 					updateTiles();
 					System.out.println("Tiles updated.");
+					TimeLabel.setText(curr.getTimeTaken() + "ms");
+					MemLabel.setText(curr.getMemUsed() + "kb");
+					ExpansionLabel.setText(Integer.toString(curr.getExpansions()));
+				}
+				else{
+					totalExpansions += curr.getExpansions();
+					totalG += curr.getGVal(0);
+					totalMem += curr.getMemUsed();
+					totalTime += curr.getTimeTaken();
+					System.out.println("Average Expansions: " + (totalExpansions / 10));
+					System.out.println("Average Cost: " + (totalG / 10));
+					System.out.println("Average Memory Used: " + (totalMem / 10) + "kb");
+					System.out.println("Average Time Taken: " + (totalTime / 10) + "ms");
 				}
 				System.out.println("");
 				algorithm.setWeight(1);
@@ -167,12 +238,92 @@ public class MapMenuController {
 		SeqAButton.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event){
-				WarningLabel.setText("");
+				int totalExpansions = 0;
+				double totalG = 0, totalMem = 0, totalTime = 0;
 				System.out.println("Beginning sequential A* search.");
-				initiateSeqSearch();
+				if(Double.parseDouble(W1Field.getText()) < 1 || !isNumeric(W2Field.getText()) || W1Field.getText() == null)
+					if(Double.parseDouble(W2Field.getText()) < 1 || !isNumeric(W2Field.getText()) || W1Field.getText() == null)
+						return;
+				if(AutomateCheck.isSelected()){
+					Vertex originalStart = currMap.getStart();
+					Vertex originalGoal = currMap.getGoal();
+					for(int i = 0; i < 9; i++){
+						currMap.setStart(currMap.getMap()[currMap.getStartGoalPairs()[i][0][0]][currMap.getStartGoalPairs()[i][1][0]]);
+						currMap.setGoal(currMap.getMap()[currMap.getStartGoalPairs()[i][0][1]][currMap.getStartGoalPairs()[i][1][1]]);
+						Vertex curr = initiateSeqSearch();
+						totalExpansions += curr.getExpansions();
+						totalG += curr.getGVal(0);
+						totalMem += curr.getMemUsed();
+						totalTime += curr.getTimeTaken();
+					}
+					currMap.setStart(originalStart);
+					currMap.setGoal(originalGoal);
+				}
+				WarningLabel.setText("");
+				Vertex curr = initiateSeqSearch();
 				if(!AutomateCheck.isSelected()){
 					updateTiles();
 					System.out.println("Tiles updated.");
+					TimeLabel.setText(curr.getTimeTaken() + "ms");
+					MemLabel.setText(curr.getMemUsed() + "kb");
+					ExpansionLabel.setText(Integer.toString(curr.getExpansions()));
+				}
+				else{
+					totalExpansions += curr.getExpansions();
+					totalG += curr.getGVal(0);
+					totalMem += curr.getMemUsed();
+					totalTime += curr.getTimeTaken();
+					System.out.println("Average Expansions: " + (totalExpansions / 10));
+					System.out.println("Average Cost: " + (totalG / 10));
+					System.out.println("Average Memory Used: " + (totalMem / 10) + "kb");
+					System.out.println("Average Time Taken: " + (totalTime / 10) + "ms");
+				}
+				System.out.println("");
+			}
+		});
+
+		IntAButton.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event){
+				int totalExpansions = 0;
+				double totalG = 0, totalMem = 0, totalTime = 0;
+				System.out.println("Beginning sequential A* search.");
+				if(Double.parseDouble(W1Field.getText()) < 1 || !isNumeric(W2Field.getText()) || W1Field.getText() == null)
+					if(Double.parseDouble(W2Field.getText()) < 1 || !isNumeric(W2Field.getText()) || W1Field.getText() == null)
+						return;
+				if(AutomateCheck.isSelected()){
+					Vertex originalStart = currMap.getStart();
+					Vertex originalGoal = currMap.getGoal();
+					for(int i = 0; i < 9; i++){
+						currMap.setStart(currMap.getMap()[currMap.getStartGoalPairs()[i][0][0]][currMap.getStartGoalPairs()[i][1][0]]);
+						currMap.setGoal(currMap.getMap()[currMap.getStartGoalPairs()[i][0][1]][currMap.getStartGoalPairs()[i][1][1]]);
+						Vertex curr = initiateIntSearch();
+						totalExpansions += curr.getExpansions();
+						totalG += curr.getGVal(0);
+						totalMem += curr.getMemUsed();
+						totalTime += curr.getTimeTaken();
+					}
+					currMap.setStart(originalStart);
+					currMap.setGoal(originalGoal);
+				}
+				WarningLabel.setText("");
+				Vertex curr = initiateIntSearch();
+				if(!AutomateCheck.isSelected()){
+					updateTiles();
+					System.out.println("Tiles updated.");
+					TimeLabel.setText(curr.getTimeTaken() + "ms");
+					MemLabel.setText(curr.getMemUsed() + "kb");
+					ExpansionLabel.setText(Integer.toString(curr.getExpansions()));
+				}
+				else{
+					totalExpansions += curr.getExpansions();
+					totalG += curr.getGVal(0);
+					totalMem += curr.getMemUsed();
+					totalTime += curr.getTimeTaken();
+					System.out.println("Average Expansions: " + (totalExpansions / 10));
+					System.out.println("Average Cost: " + (totalG / 10));
+					System.out.println("Average Memory Used: " + (totalMem / 10) + "kb");
+					System.out.println("Average Time Taken: " + (totalTime / 10) + "ms");
 				}
 				System.out.println("");
 			}
@@ -195,6 +346,31 @@ public class MapMenuController {
 		heuristic = new Heuristic();
 		algorithm = new Algorithm(heuristic);
 		updateTiles();
+	}
+
+	@FXML
+	private void backOut(ActionEvent event)
+	{
+		Stage stage = new Stage();
+		Parent root;
+		try
+		{
+			((Node)(event.getSource())).getScene().getWindow().hide();
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("MainMenu.fxml"));
+			root = (AnchorPane) loader.load();
+			MainMenuController mainController = loader.getController();
+
+			Scene scene = new Scene(root);
+			stage.setScene(scene);
+			stage.setTitle("Heuristic Map Application");
+			mainController.start(stage);
+			stage.show();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	public int getHeuristic(){
@@ -313,17 +489,18 @@ public class MapMenuController {
 		long startTime; long endTime; double msEndTime;
 		startTime = System.nanoTime();
 		algorithm.setHeuristic(h);
-		Vertex goalNode = algorithm.aStarSearch(currMap);
+		Vertex origNode = algorithm.aStarSearch(currMap);
+		Vertex goalNode = origNode;
+		endTime = System.nanoTime() - startTime;
+		msEndTime = (double)endTime / 1000000;
+		origNode.setTimeTaken(msEndTime);
 		if(goalNode != null){
 			while(!goalNode.getParent(0).equals(goalNode)){
 				goalNode.setPath(true);
 				goalNode = goalNode.getParent(0);
 			}
-			endTime = System.nanoTime() - startTime;
-			msEndTime = (double)endTime / 1000000;
-			System.out.println("Time: " + msEndTime + "ms");
 		}
-		return goalNode;
+		return origNode;
 	}
 
 	public Vertex initiateSeqSearch(){
@@ -331,17 +508,40 @@ public class MapMenuController {
 		currMap.refreshMap();
 		long startTime; long endTime; double msEndTime;
 		startTime = System.nanoTime();
-		Vertex goalNode = seqalgorithm.seqASearch(1.25, 2);
+		Vertex origNode = seqalgorithm.seqASearch(Double.parseDouble(W1Field.getText()),
+				Double.parseDouble(W2Field.getText()));
+		Vertex goalNode = origNode;
+		endTime = System.nanoTime() - startTime;
+		msEndTime = (double)endTime / 1000000;
+		origNode.setTimeTaken(msEndTime);
 		if(goalNode != null){
-			while(goalNode.getParent(goalNode.getCurrH()) != null){
+			int h = goalNode.getCurrH();
+			while(goalNode.getParent(h) != null){
 				goalNode.setPath(true);
-				goalNode = goalNode.getParent(goalNode.getCurrH());
+				goalNode = goalNode.getParent(h);
 			}
-			endTime = System.nanoTime() - startTime;
-			msEndTime = (double)endTime / 1000000;
-			System.out.println("Time: " + msEndTime + "ms");
 		}
-		return goalNode;
+		return origNode;
+	}
+
+	public Vertex initiateIntSearch(){
+		intalgorithm = new IntegratedAStar(currMap);
+		currMap.refreshMap();
+		long startTime; long endTime; double msEndTime;
+		startTime = System.nanoTime();
+		Vertex origNode = intalgorithm.intASearch(Double.parseDouble(W1Field.getText()),
+				Double.parseDouble(W2Field.getText()));
+		Vertex goalNode = origNode;
+		endTime = System.nanoTime() - startTime;
+		msEndTime = (double)endTime / 1000000;
+		origNode.setTimeTaken(msEndTime);
+		if(goalNode != null){
+			while(goalNode.getParent(0) != null){
+				goalNode.setPath(true);
+				goalNode = goalNode.getParent(0);
+			}
+		}
+		return origNode;
 	}
 
 	public boolean isNumeric(String s) {

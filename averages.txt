@@ -1,0 +1,510 @@
+UCS
+Average Expansions: 12694
+Average Cost: 92.4375
+Average Memory Used: 205931.390625kb
+Average Time Taken: 8.7184162ms
+
+Average Expansions: 13170
+Average Cost: 100.9875
+Average Memory Used: 152802.253125kb
+Average Time Taken: 7.3763526ms
+
+Average Expansions: 13574
+Average Cost: 96.475
+Average Memory Used: 131921.5390625kb
+Average Time Taken: 9.0326482ms
+
+Average Expansions: 13504
+Average Cost: 91.025
+Average Memory Used: 286616.0546875kb
+Average Time Taken: 7.7407179ms
+
+Average Expansions: 12204
+Average Cost: 98.7625
+Average Memory Used: 358706.265625kb
+Average Time Taken: 6.2969259ms
+
+13029
+95.9375
+227195.500625
+7.83301216
+
+A* (A)
+
+Average Expansions: 12581
+Average Cost: 92.4625
+Average Memory Used: 109869.48984375kb
+Average Time Taken: 11.0365982ms
+
+Average Expansions: 12966
+Average Cost: 100.9875
+Average Memory Used: 139686.6953125kb
+Average Time Taken: 7.44525170ms
+
+Average Expansions: 13440
+Average Cost: 96.65
+Average Memory Used: 97352.53125kb
+Average Time Taken: 8.3511672ms
+
+Average Expansions: 13358
+Average Cost: 91.025
+Average Memory Used: 203359.9765625kb
+Average Time Taken: 7.7277992ms
+
+Average Expansions: 12001
+Average Cost: 98.7625
+Average Memory Used: 233186.5kb
+Average Time Taken: 6.9267726ms
+
+12869
+95.9775
+156691.03859375
+8.29751778
+
+A* (B)
+
+Average Expansions: 12605
+Average Cost: 92.4375
+Average Memory Used: 111156.09375kb
+Average Time Taken: 7.4272762ms
+
+Average Expansions: 13002
+Average Cost: 100.9875
+Average Memory Used: 139686.6953125kb
+Average Time Taken: 9.717211ms
+
+Average Expansions: 13448
+Average Cost: 96.475
+Average Memory Used: 98611.17734375kb
+Average Time Taken: 9.0917494ms
+
+Average Expansions: 13375
+Average Cost: 91.025
+Average Memory Used: 203359.9765625kb
+Average Time Taken: 8.0123624ms
+
+Average Expansions: 12028
+Average Cost: 98.7625
+Average Memory Used: 235660.7890625kb
+Average Time Taken: 6.5442741ms
+
+12892
+95.9375
+157694.94640625
+8.15837462
+
+A* (C)
+
+Average Expansions: 12602
+Average Cost: 92.4375
+Average Memory Used: 111156.09375kb
+Average Time Taken: 7.2680663ms
+
+Average Expansions: 12987
+Average Cost: 100.9875
+Average Memory Used: 139686.6953125kb
+Average Time Taken: 7.1404611ms
+
+Average Expansions: 13432
+Average Cost: 96.475
+Average Memory Used: 100504.0703125kb
+Average Time Taken: 10.1870182ms
+
+Average Expansions: 13365
+Average Cost: 91.025
+Average Memory Used: 203359.9765625kb
+Average Time Taken: 7.7973698ms
+
+Average Expansions: 12016
+Average Cost: 98.7625
+Average Memory Used: 235660.7890625kb
+Average Time Taken: 7.4292511ms
+
+12880
+95.9355
+158073.525
+7.964550302
+
+A* (D)
+
+Average Expansions: 12594
+Average Cost: 92.4375
+Average Memory Used: 111156.09375kb
+Average Time Taken: 7.0509798ms
+
+Average Expansions: 12921
+Average Cost: 100.9875
+Average Memory Used: 139686.6953125kb
+Average Time Taken: 7.7526882ms
+
+Average Expansions: 13362
+Average Cost: 96.475
+Average Memory Used: 100504.0703125kb
+Average Time Taken: 7.5058541ms
+
+Average Expansions: 13295
+Average Cost: 91.025
+Average Memory Used: 203359.9765625kb
+Average Time Taken: 7.7089552ms
+
+Average Expansions: 11968
+Average Cost: 98.7625
+Average Memory Used: 237328.2265625kb
+Average Time Taken: 6.6471082ms
+
+12828
+95.9375
+158407.0125
+7.3331171
+
+A* (E)
+
+Average Expansions: 11509
+Average Cost: 93.6125
+Average Memory Used: 113670.5390625kb
+Average Time Taken: 5.7161462ms
+
+Average Expansions: 11974
+Average Cost: 101.3625
+Average Memory Used: 144174.3046875kb
+Average Time Taken: 6.2479779ms
+
+Average Expansions: 12547
+Average Cost: 99.2125
+Average Memory Used: 101761.546875kb
+Average Time Taken: 7.7608267ms
+
+Average Expansions: 12291
+Average Cost: 93.075
+Average Memory Used: 206149.03125kb
+Average Time Taken: 6.5464866ms
+
+Average Expansions: 11109
+Average Cost: 100.5
+Average Memory Used: 239802.625kb
+Average Time Taken: 6.5103383ms
+
+11886
+97.5525
+161111.609375
+6.55635508
+
+A* (A) * 1.25
+
+Average Expansions: 12555
+Average Cost: 92.4625
+Average Memory Used: 113670.5390625kb
+Average Time Taken: 6.3149803ms
+
+Average Expansions: 12906
+Average Cost: 100.9875
+Average Memory Used: 144174.3046875kb
+Average Time Taken: 6.8889255ms
+
+Average Expansions: 13371
+Average Cost: 96.7
+Average Memory Used: 104759.65625kb
+Average Time Taken: 9.13532489ms
+
+Average Expansions: 13263
+Average Cost: 91.05
+Average Memory Used: 209798.3828125kb
+Average Time Taken: 6.94976510ms
+
+Average Expansions: 11944
+Average Cost: 98.7875
+Average Memory Used: 242277.0234375kb
+Average Time Taken: 7.8900117ms
+
+12807
+95.9975
+162935.98125
+7.435801498
+
+A* (B) * 1.25
+
+Average Expansions: 12585
+Average Cost: 92.4375
+Average Memory Used: 117162.265625kb
+Average Time Taken: 6.066605ms
+
+Average Expansions: 12943
+Average Cost: 100.9875
+Average Memory Used: 144174.3046875kb
+Average Time Taken: 7.247918ms
+
+Average Expansions: 13376
+Average Cost: 96.475
+Average Memory Used: 104759.65625kb
+Average Time Taken: 8.1677399ms
+
+Average Expansions: 13320
+Average Cost: 91.025
+Average Memory Used: 207009.3125kb
+Average Time Taken: 6.7384468ms
+
+Average Expansions: 11980
+Average Cost: 98.7625
+Average Memory Used: 239802.625kb
+Average Time Taken: 7.2953255ms
+
+12840
+95.9375
+162381.6328125
+7.10320704
+
+A* (C) * 1.25
+
+Average Expansions: 12578
+Average Cost: 92.4375
+Average Memory Used: 117162.265625kb
+Average Time Taken: 6.192748ms
+
+Average Expansions: 12924
+Average Cost: 100.9875
+Average Memory Used: 144174.3046875kb
+Average Time Taken: 7.1028513ms
+
+Average Expansions: 13349
+Average Cost: 96.475
+Average Memory Used: 103502.0703125kb
+Average Time Taken: 7.4908413ms
+
+Average Expansions: 13295
+Average Cost: 91.025
+Average Memory Used: 207009.3125kb
+Average Time Taken: 9.6453492ms
+
+Average Expansions: 11962
+Average Cost: 98.7625
+Average Memory Used: 239802.625kb
+Average Time Taken: 7.961913ms
+
+12821
+95.9375
+162330.115625
+7.67874056
+
+A* (D) * 1.25
+
+Average Expansions: 12560
+Average Cost: 92.4375
+Average Memory Used: 117162.265625kb
+Average Time Taken: 6.2758689ms
+
+Average Expansions: 12832
+Average Cost: 100.9875
+Average Memory Used: 144174.3046875kb
+Average Time Taken: 7.2165897ms
+
+Average Expansions: 13261
+Average Cost: 96.475
+Average Memory Used: 103502.0703125kb
+Average Time Taken: 10.9742573ms
+
+Average Expansions: 13126
+Average Cost: 91.05
+Average Memory Used: 206149.03125kb
+Average Time Taken: 6.95889120ms
+
+Average Expansions: 11884
+Average Cost: 98.7625
+Average Memory Used: 239802.625kb
+Average Time Taken: 7.65613520ms
+
+12732
+95.9425
+162148.059375
+7.81634846
+
+A* (E) * 1.25
+
+Average Expansions: 11244
+Average Cost: 95.6125
+Average Memory Used: 117162.265625kb
+Average Time Taken: 5.6675137ms
+
+Average Expansions: 11818
+Average Cost: 104.2375
+Average Memory Used: 147931.203125kb
+Average Time Taken: 6.5402837ms
+
+Average Expansions: 12325
+Average Cost: 100.45
+Average Memory Used: 102244.59375kb
+Average Time Taken: 6.7982195ms
+
+Average Expansions: 12149
+Average Cost: 94.8875
+Average Memory Used: 206149.03125kb
+Average Time Taken: 6.7601752ms
+
+Average Expansions: 11035
+Average Cost: 101.875
+Average Memory Used: 239802.625kb
+Average Time Taken: 7.689676ms
+
+11714
+99.4125
+162657.94375
+6.69117362
+
+A* (A) * 2
+
+Average Expansions: 12407
+Average Cost: 93.3125
+Average Memory Used: 119676.6875kb
+Average Time Taken: 7.1322043ms
+
+Average Expansions: 12557
+Average Cost: 100.9875
+Average Memory Used: 148661.78125kb
+Average Time Taken: 7.0584466ms
+
+Average Expansions: 13110
+Average Cost: 97.4375
+Average Memory Used: 106017.1328125kb
+Average Time Taken: 7.4014784ms
+
+Average Expansions: 12422
+Average Cost: 91.275
+Average Memory Used: 209798.3828125kb
+Average Time Taken: 8.8794829ms
+
+Average Expansions: 11664
+Average Cost: 98.7875
+Average Memory Used: 242674.6953125kb
+Average Time Taken: 7.3929057ms
+
+12432
+96.36
+165365.7359375
+7.57290358
+
+A* (B) * 2
+
+Average Expansions: 12476
+Average Cost: 92.5125
+Average Memory Used: 119676.6875kb
+Average Time Taken: 8.4382781ms
+
+Average Expansions: 12670
+Average Cost: 100.9875
+Average Memory Used: 148661.78125kb
+Average Time Taken: 7.5256466ms
+
+Average Expansions: 13153
+Average Cost: 96.525
+Average Memory Used: 107757.765625kb
+Average Time Taken: 7.4034539ms
+
+Average Expansions: 12890
+Average Cost: 91.2125
+Average Memory Used: 210736.890625kb
+Average Time Taken: 6.8453502ms
+
+Average Expansions: 11751
+Average Cost: 98.7625
+Average Memory Used: 242674.6953125kb
+Average Time Taken: 8.26243630ms
+
+12588
+96
+165901.5640625
+7.69503302
+
+A* (C) * 2
+
+Average Expansions: 12432
+Average Cost: 92.5125
+Average Memory Used: 119676.6875kb
+Average Time Taken: 7.5764512ms
+
+Average Expansions: 12625
+Average Cost: 100.9875
+Average Memory Used: 148661.78125kb
+Average Time Taken: 6.9951184ms
+
+Average Expansions: 13121
+Average Cost: 96.525
+Average Memory Used: 107757.765625kb
+Average Time Taken: 7.1734095ms
+
+Average Expansions: 12855
+Average Cost: 91.2125
+Average Memory Used: 210736.890625kb
+Average Time Taken: 6.9373995ms
+
+Average Expansions: 11707
+Average Cost: 98.7625
+Average Memory Used: 242674.6953125kb
+Average Time Taken: 8.0705153ms
+
+12548
+96
+165901.5640625
+7.35057878
+
+A* (D) * 2
+
+Average Expansions: 12209
+Average Cost: 92.8375
+Average Memory Used: 119676.6875kb
+Average Time Taken: 7.1275031ms
+
+Average Expansions: 12365
+Average Cost: 101.0625
+Average Memory Used: 147931.203125kb
+Average Time Taken: 7.0027033ms
+
+Average Expansions: 12902
+Average Cost: 97.075
+Average Memory Used: 107757.765625kb
+Average Time Taken: 7.1842736ms
+
+Average Expansions: 13295
+Average Cost: 91.025
+Average Memory Used: 213526.0546875kb
+Average Time Taken: 7.0718787ms
+
+Average Expansions: 11419
+Average Cost: 98.9125
+Average Memory Used: 242674.6953125kb
+Average Time Taken: 8.5268509ms
+
+12438
+96.1825
+166313.28125
+7.38264192
+
+A* (E) * 2
+
+Average Expansions: 11232
+Average Cost: 96.9875
+Average Memory Used: 122191.1875kb
+Average Time Taken: 6.83523679ms
+
+Average Expansions: 11806
+Average Cost: 105.1375
+Average Memory Used: 147931.203125kb
+Average Time Taken: 6.57986889ms
+
+Average Expansions: 12321
+Average Cost: 100.85
+Average Memory Used: 109015.3671875kb
+Average Time Taken: 7.3767082ms
+
+Average Expansions: 12291
+Average Cost: 93.075
+Average Memory Used: 213526.0546875kb
+Average Time Taken: 6.2049554ms
+
+Average Expansions: 10906
+Average Cost: 105.3875
+Average Memory Used: 245149.09375kb
+Average Time Taken: 8.0668412ms
+
+11711
+100.2875
+167562.58125
+7.012722096
